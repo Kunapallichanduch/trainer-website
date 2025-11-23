@@ -41,11 +41,50 @@
 
     /* Footer */
     footer { background: #000; text-align: center; padding: 30px; margin-top: 60px; color: #666; }
-  </style>
+    /* Scroll Reveal */
+    .reveal { opacity: 0; transform: translateY(40px); transition: 1s all ease; }
+    .reveal.active { opacity: 1; transform: translateY(0px); }
+
+    /* Floating tech icons */
+    .float-icon {
+      position: absolute;
+      width: 40px;
+      opacity: 0.3;
+      animation: floatIcons 6s ease-in-out infinite;
+    }
+    @keyframes floatIcons {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Gradient wave animation */
+    .animated-gradient {
+      background: linear-gradient(270deg, #1a73e8, #0d47a1, #072a73);
+      background-size: 600% 600%;
+      animation: gradientMove 12s ease infinite;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 </head>
 <body>
+  <!-- PARTICLE BACKGROUND -->
+  <div id="particles-js" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;"></div>
 
-  <header>
+
+  <header class="animated-gradient">
+    <!-- FLOATING TECH ICONS -->
+    <img src="https://cdn-icons-png.flaticon.com/512/732/732212.png" class="float-icon" style="top:20px; left:10%;">
+    <img src="https://cdn-icons-png.flaticon.com/512/873/873107.png" class="float-icon" style="top:80px; right:12%; animation-delay:1s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/919/919853.png" class="float-icon" style="top:150px; left:5%; animation-delay:2s;">
+    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png" class="float-icon" style="top:200px; right:5%; animation-delay:1.5s;">
+
+<header class="animated-gradient">
     <h1>KUNAPALLI CHANDHU</h1>
     <p>Premium Data Engineering Trainer • Azure • AWS • PySpark • SQL • Power BI</p>
     <p>Mobile: +91-8088032518 | Email: kunapallichandu@gmail.com</p>
@@ -185,5 +224,33 @@
     © 2025 Chandhu Premium Training | All Rights Reserved
   </footer>
 
+<script>
+// Scroll reveal effect
+function reveal() {
+  let reveals = document.querySelectorAll('.reveal');
+  for (let i = 0; i < reveals.length; i++) {
+    let windowHeight = window.innerHeight;
+    let elementTop = reveals[i].getBoundingClientRect().top;
+    let elementVisible = 150;
+    if (elementTop < windowHeight - elementVisible) {
+      reveals[i].classList.add('active');
+    }
+  }
+}
+window.addEventListener('scroll', reveal);
+reveal();
+
+// Particles.js Config
+particlesJS('particles-js', {
+  particles: {
+    number: { value: 90 },
+    size: { value: 3 },
+    color: { value: '#4da3ff' },
+    line_linked: { enable: true, color: '#4da3ff' },
+    move: { speed: 2 }
+  }
+});
+</script>
 </body>
 </html>
+
