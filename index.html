@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Chandhu • Premium 3D Data Engineering Trainer</title>
-  <meta name="description" content="Kunapalli Chandhu — Premium 3D Data Engineering Trainer. Azure, AWS, Databricks, SQL, Power BI. Practical, project-based training." />
-  <meta property="og:title" content="Chandhu • Premium 3D Data Engineering Trainer" />
+  <title>Chandhu • Data Engineering Trainer</title>
+  <meta name="description" content="Kunapalli Chandhu — Data Engineering Trainer. Azure, AWS, Databricks, SQL, Power BI. Practical, project-based training." />
+  <meta property="og:title" content="Chandhu • Data Engineering Trainer" />
   <meta property="og:description" content="Practical, project-based data engineering courses: Azure, AWS, Databricks, PySpark, SQL." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,19 +17,24 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js" defer></script>
 
   <style>
-    :root{--bg:#0b0d12;--card:#0f1720;--accent:#1a73e8;--muted:#9dbfe8;--glass:rgba(255,255,255,0.04);--success:#25D366}
+    :root{--bg:#0b0d12;--card:#0f1720;--accent:#1a73e8;--muted:#9dbfe8;--glass:rgba(255,255,255,0.04);--gold:rgba(255,200,60,0.95);--success:#25D366}
     *{box-sizing:border-box}html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;color:#e6f0ff;background:linear-gradient(180deg,#06070a,var(--bg));-webkit-font-smoothing:antialiased}
 
     /* layout */
     header{position:relative;padding:84px 20px 120px;text-align:center;overflow:hidden}
-    .hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:4}
+    .hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:6}
     h1{font-size:48px;margin:0;color:#fff;font-weight:800;letter-spacing:0.6px}
-    .sub{margin-top:8px;color:rgba(255,255,255,0.9);font-weight:500}
+    .sub{margin-top:8px;color:rgba(255,255,255,0.9);font-weight:600;display:block;min-height:44px;white-space:normal;overflow-wrap:break-word;word-break:break-word;line-height:1.15;transition:opacity .5s ease;font-size:16px;}
     .contact-line{margin-top:12px;color:rgba(255,255,255,0.85);font-weight:600}
 
     /* CTA */
     .cta-btn{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:12px 22px;border-radius:12px;background:linear-gradient(90deg,#2b7df0,#66b2ff);color:#fff;font-weight:700;text-decoration:none;box-shadow:0 10px 30px rgba(26,115,232,0.22);transform:translateZ(0);transition:transform .18s ease,box-shadow .18s}
     .cta-btn:active{transform:translateY(1px)}
+    .cta-btn.magnetic{transition:transform .2s cubic-bezier(.2,.9,.3,1);}
+    .cta-btn.neon{box-shadow:0 8px 30px rgba(26,115,232,0.25),0 0 18px rgba(26,115,232,0.12) inset}
+
+    /* neon pulse */
+    @keyframes neonPulse{0%{box-shadow:0 10px 20px rgba(26,115,232,0.12);}50%{box-shadow:0 20px 40px rgba(26,115,232,0.18);}100%{box-shadow:0 10px 20px rgba(26,115,232,0.12)}}
 
     /* background canvas for subtle 3D */
     #bg-canvas{position:fixed;inset:0;z-index:1;pointer-events:none;display:block}
@@ -39,21 +44,30 @@
 
     /* course grid */
     .courses{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;margin-top:20px}
-    .card3d{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:16px;padding:22px;backdrop-filter:blur(6px);box-shadow:0 12px 30px rgba(2,8,23,0.6);transition:transform .45s cubic-bezier(.2,.9,.3,1),box-shadow .45s;transform-style:preserve-3d;cursor:pointer;position:relative;overflow:hidden}
+    .card3d{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:16px;padding:22px;backdrop-filter:blur(8px);box-shadow:0 12px 30px rgba(2,8,23,0.6);transition:transform .45s cubic-bezier(.2,.9,.3,1),box-shadow .45s,box-shadow .2s;transform-style:preserve-3d;cursor:pointer;position:relative;overflow:hidden}
     .card3d .badge{position:absolute;right:14px;top:14px;background:linear-gradient(90deg,#0b2346,#1b4283);padding:6px 10px;border-radius:10px;font-weight:700}
-    .card3d:hover{transform:translateY(-20px) rotateX(6deg) rotateY(-6deg) scale(1.03);box-shadow:0 40px 80px rgba(10,20,80,0.6)}
+    .card3d:hover{transform:translateY(-22px) rotateX(6deg) rotateY(-6deg) scale(1.04);box-shadow:0 60px 120px rgba(2,20,60,0.6),0 0 40px rgba(26,115,232,0.08)}
     .card3d h3{margin:0 0 8px;color:#dff0ff}
     .card3d p{color:var(--muted);margin:0 0 12px}
+    .card3d:focus{outline:2px solid rgba(255,255,255,0.04);outline-offset:6px}
+
+    /* golden border hover */
+    .card3d.gold:hover{box-shadow:0 60px 120px rgba(0,0,0,0.75),0 0 40px rgba(255,200,0,0.18);border:1px solid rgba(255,200,0,0.25)}
 
     .price{display:inline-block;padding:8px 14px;background:linear-gradient(90deg,#081a3a,#1b3a78);border-radius:10px;color:#fff;font-weight:700}
 
     /* tools carousel (3D look) */
     .tools-wrap{margin:60px auto 30px;perspective:1200px}
     .three-track{display:flex;gap:18px;align-items:center;justify-content:center}
-    .card-3d-tool{width:180px;height:220px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.02));backdrop-filter:blur(6px);box-shadow:0 20px 40px rgba(2,8,23,0.6);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .4s,cubic-bezier(.2,.9,.3,1);cursor:pointer;position:relative}
-    .card-3d-tool.center{transform:translateY(-12px) scale(1.08);box-shadow:0 55px 120px rgba(0,0,0,0.75)}
-    .card-3d-tool img{width:96px;height:96px;object-fit:contain}
-    .label{margin-top:10px;color:var(--muted);font-weight:700}
+    .card-3d-tool{width:140px;height:180px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));backdrop-filter:blur(6px);box-shadow:0 18px 36px rgba(2,8,23,0.45);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .6s cubic-bezier(.2,.9,.3,1);cursor:pointer;position:relative}
+    .card-3d-tool.center{transform:translateY(-8px) scale(1.06);box-shadow:0 55px 120px rgba(0,0,0,0.75);border:1px solid rgba(255,215,0,0.12)}
+    .card-3d-tool img{width:72px;height:72px;object-fit:contain;filter:grayscale(30%) brightness(.85)}
+    .card-3d-tool:hover img{filter:none;transform:translateY(-4px) rotateY(12deg)}
+    .label{margin-top:8px;color:var(--muted);font-weight:700}
+
+    /* spotlight */
+    .spotlight{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:overlay;z-index:5}
+    .spot{position:absolute;width:320px;height:320px;border-radius:50%;filter:blur(80px);background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.12), rgba(26,115,232,0.06) 30%, transparent 50%);transform:translate(-50%,-50%)}
 
     /* timeline & testimonials */
     .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
@@ -62,7 +76,7 @@
     footer{padding:30px;text-align:center;color:#9fb3d6}
 
     /* responsive */
-    @media(max-width:900px){h1{font-size:32px} .grid-2{grid-template-columns:1fr} .three-track{overflow:auto;padding:10px}}
+    @media(max-width:900px){h1{font-size:32px} .grid-2{grid-template-columns:1fr} .three-track{overflow:auto;padding:10px} .card-3d-tool{width:120px;height:150px}}
 
     /* accessibility: reduce motion */
     @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
@@ -72,10 +86,17 @@
 
     /* small helper animations for content reveal via GSAP */
     .reveal{opacity:0;transform:translateY(14px)}
-    .show-focus :focus{outline:3px solid rgba(255,255,255,0.12);outline-offset:3px}
+    .ripple{position:relative;overflow:hidden}
+    .ripple .circle{position:absolute;border-radius:50%;transform:scale(0);background:rgba(255,255,255,0.14);animation:ripple-effect 700ms ease-out;pointer-events:none}
+    @keyframes ripple-effect{to{transform:scale(6);opacity:0}}
+
+    /* gradient scroll transition */
+    body[data-theme="blue"]{background:linear-gradient(180deg,#021027,var(--bg))}
+    body[data-theme="violet"]{background:linear-gradient(180deg,#120428,var(--bg))}
+
   </style>
 </head>
-<body>
+<body data-theme="blue">
   <!-- background canvas for 3D particles (three.js) -->
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
@@ -83,26 +104,103 @@
   <div class="blob" style="width:520px;height:520px;background:linear-gradient(135deg,#0d47a1,#4da3ff);top:-120px;left:-220px;z-index:0"></div>
   <div class="blob" style="width:380px;height:380px;background:linear-gradient(135deg,#072a73,#1a73e8);right:-120px;bottom:-120px;z-index:0"></div>
 
+  <!-- spotlight layer -->
+  <div class="spotlight" aria-hidden="true"><div id="spot" class="spot" style="left:50%;top:160px"></div></div>
+
   <header>
     <div class="hero-inner">
-      <h1>KUNAPALLI CHANDHU</h1>
-      <div class="sub">Premium 3D Data Engineering Trainer • Azure • AWS • Databricks • SQL • Power BI</div>
+      <button id="enableUploadBtn" style="margin-bottom:12px;padding:8px 14px;border-radius:8px;background:#1a73e8;color:#fff;font-weight:600;border:none;cursor:pointer">Enable Photo Upload (Admin)</button>
+<input type="file" id="photoUpload" accept="image/*" style="margin-bottom:16px;color:#fff;display:none"><br>
+<img id="profilePhoto" src="YOUR_PHOTO_URL_HERE" alt="Chandhu Photo" style="width:140px;height:140px;border-radius:50%;object-fit:cover;margin-bottom:16px;box-shadow:0 0 22px rgba(26,115,232,0.45)">
+      <h1 id="brand">KUNAPALLI CHANDHU</h1>
+      <div class="sub" id="typedExpert"></div>
       <div class="contact-line">Mobile: <a href="tel:+918088032518" style="color:inherit;text-decoration:none">+91-8088032518</a> &nbsp; | &nbsp; <a href="mailto:kunapallichandu@gmail.com" style="color:inherit;text-decoration:none">kunapallichandu@gmail.com</a></div>
 
       <div style="margin-top:18px">
-        <a class="cta-btn" href="#courses" id="enrollHero">View Courses</a>
-        <a class="cta-btn" href="mailto:kunapallichandu@gmail.com?subject=Enrollment" style="margin-left:12px;background:linear-gradient(90deg,#0f7e3e,#1ad28a)">Enroll Now</a>
+        <a class="cta-btn magnetic neon ripple" href="#courses" id="enrollHero">View Courses</a>
+        <a class="cta-btn magnetic ripple" href="mailto:kunapallichandu@gmail.com?subject=Enrollment" style="margin-left:12px;background:linear-gradient(90deg,#0f7e3e,#1ad28a)">Enroll Now</a>
       </div>
 
-      <div style="margin-top:14px;color:rgba(255,255,255,0.85)">Trusted by <strong>500+</strong> students • Money-back policy • Live projects included</div>
+      <div style="margin-top:14px;color:rgba(255,255,255,0.85)">Trusted by <strong>50+</strong> students • Money-back policy • Live projects included</div>
     </div>
-  </header>
+  <script>
+  // live typing expert titles
+  document.getElementById('typedExpert').style.opacity=0;
+setTimeout(()=>{document.getElementById('typedExpert').style.opacity=1;},150);
+
+const roles = [
+  "Data Engineering Expert",
+  "GenAI & LLM Engineer",
+  "Machine Learning Engineer",
+  "Deep Learning Specialist",
+  "Cloud Data Architect",
+];
+  let idx = 0, char = 0, rev = false;
+  function typeLoop(){
+    const el = document.getElementById('typedExpert');
+    if(!el) return;
+    if(!rev){ char++; if(char === roles[idx].length){ rev = true; setTimeout(typeLoop, 900); return;} }
+    else { char--; if(char === 0){ rev = false; idx = (idx+1)%roles.length; } }
+    el.textContent = roles[idx].substring(0,char);
+    setTimeout(typeLoop, rev ? 40 : 70);
+  }
+  window.addEventListener('DOMContentLoaded', typeLoop);
+</script>
+<script>
+// secure photo upload (only you can enable)
+const enableBtn = document.getElementById('enableUploadBtn');
+enableBtn.addEventListener('click', ()=>{
+  const pass = prompt('Enter Admin Password to Enable Photo Upload:');
+  if(pass === 'chandu123'){ // your private password
+    document.getElementById('photoUpload').style.display = 'block';
+    enableBtn.style.display = 'none';
+  } else {
+    alert('Wrong password! Access denied.');
+  }
+});
+
+// photo upload preview
+const upload = document.getElementById('photoUpload');
+const img = document.getElementById('profilePhoto');
+upload.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if(file){ img.src = URL.createObjectURL(file); }
+});
+</script>
+</header>
 
   <main>
     <!-- about -->
     <section id="about" class="reveal">
       <div class="card-simple">
         <p>I'm a Data Engineer & Technical Trainer with 3.4 years of experience building production-grade data solutions using Azure & AWS, Databricks, PySpark, SQL and Delta Lake. My training is practical, project-based and job-oriented.</p>
+        <article class="card3d ripple" tabindex="0">
+          <h3>GenAI & LLM Engineering (40 days)</h3>
+          <p>Generative AI • LLMs • Prompt Engineering • RAG • Vector DB • LangChain</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+            <span class="price">₹35,000</span>
+            <a class="cta-btn" href="#contact">Enroll</a>
+          </div>
+        </article>
+
+        <article class="card3d ripple" tabindex="0">
+          <h3>Machine Learning & AI Engineering (50 days)</h3>
+          <p>ML Algorithms • Model Training • MLOps • Feature Engineering • Deployment</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+            <span class="price">₹35,000</span>
+            <a class="cta-btn" href="#contact">Enroll</a>
+          </div>
+        </article>
+
+        <article class="card3d ripple" tabindex="0">
+          <h3>Deep Learning Engineering (45 days)</h3>
+          <p>Neural Networks • CNN • RNN • LSTMs • Transformers • Deployment • GPU Training</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+            <span class="price">₹32,000</span>
+            <a class="cta-btn" href="#contact">Enroll</a>
+          </div>
+        </article>
+
       </div>
     </section>
 
@@ -111,8 +209,8 @@
       <h2 style="color:var(--accent);text-align:left">Courses</h2>
       <div class="courses" aria-live="polite">
 
-        <!-- Course card (re-usable pattern) -->
-        <article class="card3d" tabindex="0">
+        <!-- Course cards -->
+        <article class="card3d gold ripple" tabindex="0">
           <div class="badge">BESTSELLER</div>
           <h3>Azure Data Engineering (60 days)</h3>
           <p>ADF • Databricks • Synapse • Delta Lake • CI/CD • Real projects</p>
@@ -122,7 +220,7 @@
           </div>
         </article>
 
-        <article class="card3d" tabindex="0">
+        <article class="card3d ripple" tabindex="0">
           <h3>AWS Data Engineering (45 days)</h3>
           <p>S3 • Glue • Lambda • Redshift • Athena • ETL Projects</p>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
@@ -131,7 +229,7 @@
           </div>
         </article>
 
-        <article class="card3d" tabindex="0">
+        <article class="card3d ripple" tabindex="0">
           <h3>SQL Mastery (30 days)</h3>
           <p>Joins • Window functions • Optimization • 200+ interview questions</p>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
@@ -140,8 +238,8 @@
           </div>
         </article>
 
-        <article class="card3d" tabindex="0">
-          <h3>Python for Data Engineering</h3>
+        <article class="card3d ripple" tabindex="0">
+          <h3>Python for Data Engineering (30 days)</h3>
           <p>APIs • ETL scripts • Automation • Data pipelines</p>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
             <span class="price">₹19,999</span>
@@ -149,8 +247,8 @@
           </div>
         </article>
 
-        <article class="card3d" tabindex="0">
-          <h3>Databricks + PySpark</h3>
+        <article class="card3d ripple" tabindex="0">
+          <h3>Databricks + PySpark (45 days)</h3>
           <p>Transformations • Autoloader • Delta • MLflow • Production ETL</p>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
             <span class="price">₹30,000</span>
@@ -158,8 +256,8 @@
           </div>
         </article>
 
-        <article class="card3d" tabindex="0">
-          <h3>Power BI — Dashboarding</h3>
+        <article class="card3d ripple" tabindex="0">
+          <h3>Power BI — Dashboarding (30 days)</h3>
           <p>DAX • Modeling • KPI dashboards • Storytelling with data</p>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
             <span class="price">₹19,999</span>
@@ -167,6 +265,67 @@
           </div>
         </article>
 
+      </div>
+    </section>
+
+    <!-- syllabuses -->
+    <section id="syllabus" class="reveal" style="margin-top:36px">
+      <h2 style="color:var(--accent);text-align:left">Detailed Syllabus</h2>
+      <div class="card-simple" style="padding:0">
+        <details style="padding:18px;border-bottom:1px solid rgba(255,255,255,0.06)">
+          <summary style="cursor:pointer;font-weight:700">Azure Data Engineering (60 days)</summary>
+          <ul>
+            <li>ADF pipelines & triggers</li><li>Databricks notebooks</li><li>Synapse dedicated SQL</li><li>Delta Lake & Medallion</li><li>Azure DevOps CI/CD</li>
+          </ul>
+        </details>
+        <details style="padding:18px;border-bottom:1px solid rgba(255,255,255,0.06)">
+          <summary style="cursor:pointer;font-weight:700">AWS Data Engineering (45 days)</summary>
+          <ul>
+            <li>S3, Lambda, Glue ETL</li><li>Athena + Redshift</li><li>Serverless pipelines</li><li>CloudWatch + IAM</li>
+          </ul>
+        </details>
+        <details style="padding:18px;border-bottom:1px solid rgba(255,255,255,0.06)">
+          <summary style="cursor:pointer;font-weight:700">SQL Mastery (30 days)</summary>
+          <ul>
+            <li>Joins, aggregations</li><li>Window functions</li><li>Optimization</li><li>200+ interview questions</li>
+          </ul>
+        </details>
+        <details style="padding:18px;border-bottom:1px solid rgba(255,255,255,0.06)">
+          <summary style="cursor:pointer;font-weight:700">Python for Data Engineering (30 days)</summary>
+          <ul>
+            <li>APIs & ETL scripts</li><li>Data cleaning</li><li>File automation</li><li>Pipeline orchestration</li>
+          </ul>
+        </details>
+        <details style="padding:18px;border-bottom:1px solid rgba(255,255,255,0.06)">
+          <summary style="cursor:pointer;font-weight:700">Databricks + PySpark (45 days)</summary>
+          <ul>
+            <li>Spark transformations</li><li>Autoloader</li><li>Delta Lake</li><li>MLflow tracking</li>
+          </ul>
+        </details>
+        <details style="padding:18px;border-bottom:1px solid rgba(255,255,255,0.06)">
+          <summary style="cursor:pointer;font-weight:700">Power BI Dashboarding (30 days)</summary>
+          <ul>
+            <li>DAX functions</li><li>Data modeling</li><li>KPI dashboards</li><li>Publishing pipelines</li>
+          </ul>
+        </details>
+        <details style="padding:18px;border-bottom:1px solid rgba(255,255,255,0.06)">
+          <summary style="cursor:pointer;font-weight:700">GenAI & LLM Engineering (40 days)</summary>
+          <ul>
+            <li>LLMs & tokenization</li><li>Prompt engineering</li><li>RAG pipelines</li><li>Vector DB + LangChain</li>
+          </ul>
+        </details>
+        <details style="padding:18px;border-bottom:1px solid rgba(255,255,255,0.06)">
+          <summary style="cursor:pointer;font-weight:700">Machine Learning & AI Engineering (50 days)</summary>
+          <ul>
+            <li>ML algorithms</li><li>Feature engineering</li><li>Model training & tuning</li><li>MLOps deployment</li>
+          </ul>
+        </details>
+        <details style="padding:18px">
+          <summary style="cursor:pointer;font-weight:700">Deep Learning Engineering (45 days)</summary>
+          <ul>
+            <li>Neural Networks</li><li>CNN / RNN / LSTM</li><li>Transformers</li><li>GPU training</li><li>Deployment</li>
+          </ul>
+        </details>
       </div>
     </section>
 
@@ -183,7 +342,7 @@
           <h2 style="color:var(--accent)">Works & Projects</h2>
           <div class="card-simple">
             <ul>
-              <li>E-commerce Data Pipeline (Walmart) — 21M+ records, ADF + Synapse + Databricks</li>
+              <li>E‑commerce Data Pipeline (Walmart) — 21M+ records, ADF + Synapse + Databricks</li>
               <li>Crypto Price Prediction (Elliptic) — Databricks + MLflow</li>
               <li>Real-Time News Aggregation (CoinDesk) — Python + Spark</li>
             </ul>
@@ -198,7 +357,7 @@
               <li>Kids Learning & Activity Books</li>
               <li>Premium Illustrated Story Books</li>
             </ul>
-            <p style="margin-top:12px"><a class="cta-btn" href="/mnt/data/KUNAPALLI CHANDHU (TRAINER) (1).pdf" target="_blank">Download Resume (PDF)</a></p>
+            
           </div>
         </div>
       </div>
@@ -222,11 +381,11 @@
   <a class="float-enroll" href="https://wa.me/918088032518?text=I'm%20interested%20in%20your%20data%20engineering%20course">Enroll on WhatsApp</a>
 
   <footer>
-    © 2025 Chandhu Premium Training | All Rights Reserved
+    2025 Chandhu Premium Training • Trusted & Loved by Students Worldwide
   </footer>
 
   <script>
-    // lightweight tool list and icons (lazy loaded)
+    // ====== assets & tools ======
     const tools = [
       {id:'pyspark',name:'PySpark',img:'https://raw.githubusercontent.com/Kunapallichanduch/trainer-website/main/icon_1.png'},
       {id:'python',name:'Python',img:'https://raw.githubusercontent.com/Kunapallichanduch/trainer-website/main/icon_2.png'},
@@ -254,10 +413,9 @@
       track.appendChild(a);
     });
 
-    // --- SAFE reveal logic: GSAP+ScrollTrigger if available, else IntersectionObserver fallback ---
+    // ====== GSAP + Scroll reveals (safe) ======
     function initRevealsAndScroll() {
       const items = document.querySelectorAll('.reveal');
-      // If GSAP and ScrollTrigger loaded, register and use it
       if (window.gsap && window.ScrollTrigger && typeof gsap.registerPlugin === 'function') {
         try {
           gsap.registerPlugin(ScrollTrigger);
@@ -272,8 +430,6 @@
           console.warn('GSAP reveal failed, falling back to IO', err);
         }
       }
-
-      // Fallback: IntersectionObserver + gsap if present, else CSS toggle
       if ('IntersectionObserver' in window) {
         const io = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
@@ -282,8 +438,7 @@
               if (window.gsap) {
                 gsap.to(el, {autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out'});
               } else {
-                el.style.opacity = 1;
-                el.style.transform = 'none';
+                el.style.opacity = 1; el.style.transform = 'none';
               }
               io.unobserve(el);
             }
@@ -291,106 +446,119 @@
         }, {threshold: 0.12});
         items.forEach(it => io.observe(it));
       } else {
-        // no IO — simply reveal all
         items.forEach((el) => { el.style.opacity = 1; el.style.transform = 'none'; });
       }
     }
 
-    // center highlight for tools (simple JS carousel)
+    // ====== highlight tools carousel ======
     function highlightTools(){
       const cards = Array.from(document.querySelectorAll('.card-3d-tool'));
       if(!cards.length) return;
       let center = 1;
       function render(){
-        cards.forEach((c,i)=>{c.classList.remove('center');c.style.opacity=0.15;});
+        cards.forEach((c,i)=>{c.classList.remove('center');c.style.opacity=0.12;});
         const left=(center-1+cards.length)%cards.length; const right=(center+1)%cards.length;
         [left,center,right].forEach(i=>{cards[i].style.opacity=1});
         cards[center].classList.add('center');
       }
       render();
       setInterval(()=>{center=(center+1)%cards.length; render()}, 3000);
+
+      // small GSAP idle animation for center card
+      if(window.gsap){
+        setInterval(()=>{
+          const c = document.querySelector('.card-3d-tool.center img');
+          if(c) gsap.to(c,{y:-6,duration:0.9,yoyo:true,repeat:1,ease:'sine.inOut'});
+        },3500);
+      }
     }
 
-    // three.js subtle floating particles background (robust)
+    // ====== three.js background (particles + soft lights) ======
     function initThreeBG(){
-      if(!window.THREE) {
-        // three.js not available - do nothing
-        return;
-      }
+      if(!window.THREE) return;
       try{
         const canvas = document.getElementById('bg-canvas');
-        // ensure canvas covers screen
-        canvas.style.position = 'fixed';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        canvas.style.zIndex = '1';
-        canvas.style.pointerEvents = 'none';
-
-        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-        renderer.setClearColor(0x000000, 0); // transparent background
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
-
+        canvas.style.position='fixed'; canvas.style.top='0'; canvas.style.left='0'; canvas.style.width='100%'; canvas.style.height='100%'; canvas.style.zIndex='1';
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+        renderer.setClearColor(0x000000,0);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 180;
+        const camera = new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight,0.1,1000); camera.position.z=180;
 
-        // particles
-        const geom = new THREE.BufferGeometry();
-        const count = 300;
-        const positions = new Float32Array(count * 3);
-        for (let i = 0; i < count * 3; i++) positions[i] = (Math.random() - 0.5) * 800;
-        geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        const mat = new THREE.PointsMaterial({ size: 2.2, opacity: 0.85, transparent: true });
-        const points = new THREE.Points(geom, mat);
-        scene.add(points);
+        const geom = new THREE.BufferGeometry(); const count=380; const pos=new Float32Array(count*3);
+        for(let i=0;i<count*3;i++){pos[i]=(Math.random()-0.5)*900}
+        geom.setAttribute('position',new THREE.BufferAttribute(pos,3));
+        const mat = new THREE.PointsMaterial({size:2.4,opacity:0.9,transparent:true,color:0x7fb7ff});
+        const points = new THREE.Points(geom,mat); scene.add(points);
 
-        function onResize(){
-          const w = window.innerWidth;
-          const h = window.innerHeight;
-          camera.aspect = w / h;
-          camera.updateProjectionMatrix();
-          renderer.setSize(w, h);
-        }
-        window.addEventListener('resize', onResize);
-        onResize();
+        const light = new THREE.PointLight(0x1a73e8,0.6,1200); light.position.set(-200,80,200); scene.add(light);
+        const light2 = new THREE.PointLight(0xffc857,0.18,1200); light2.position.set(260,-120,120); scene.add(light2);
 
-        let t = 0;
-        function animate(){
-          t += 0.004;
-          points.rotation.y = t * 0.6;
-          points.rotation.x = Math.sin(t * 0.7) * 0.08;
-          renderer.render(scene, camera);
-          requestAnimationFrame(animate);
-        }
+        function onResize(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight)}
+        window.addEventListener('resize',onResize); onResize();
+        let t=0; function animate(){t+=0.003; points.rotation.y=t*0.5; points.rotation.x=Math.sin(t*0.5)*0.06; renderer.render(scene,camera); requestAnimationFrame(animate)}
         animate();
-      }catch(e){
-        console.warn('three.js background failed', e);
-      }
+      }catch(e){console.warn('three.js bg failed',e)}
     }
 
-    // keyboard focus styles helper
+    // ====== spotlight follow pointer ======
+    function initSpotlight(){
+      const spot = document.getElementById('spot'); if(!spot) return;
+      function move(e){ const x = e.clientX; const y = e.clientY; spot.style.left = x+'px'; spot.style.top = y+'px'; }
+      window.addEventListener('mousemove', move);
+      // mobile: slow parallax
+      window.addEventListener('deviceorientation', (ev)=>{const x=(ev.gamma||0); const y=(ev.beta||0); spot.style.left = (window.innerWidth/2 + x*6)+'px'; spot.style.top = (window.innerHeight/4 + y*6)+'px';});
+    }
+
+    // ====== magnetic buttons + ripple ======
+    function initButtons(){
+      document.querySelectorAll('.magnetic').forEach(btn=>{
+        btn.addEventListener('mousemove', e=>{
+          const rect = btn.getBoundingClientRect(); const dx = (e.clientX - rect.left - rect.width/2); const dy = (e.clientY - rect.top - rect.height/2);
+          btn.style.transform = `translate(${dx*0.06}px, ${dy*0.06}px) scale(1.02)`;
+        });
+        btn.addEventListener('mouseleave', ()=>{btn.style.transform='none'});
+        // ripple
+        btn.addEventListener('click', e=>{
+          const r = document.createElement('span'); r.className='circle'; const rect = btn.getBoundingClientRect(); r.style.left = (e.clientX - rect.left)+'px'; r.style.top = (e.clientY - rect.top)+'px'; btn.appendChild(r); setTimeout(()=>r.remove(),700);
+        });
+      });
+    }
+
+    // ====== ripple for cards (click) ======
+    function initCardRipples(){ document.querySelectorAll('.ripple').forEach(c=>{ c.addEventListener('click',e=>{ const r=document.createElement('span'); r.className='circle'; const rect=c.getBoundingClientRect(); r.style.left=(e.clientX-rect.left)+'px'; r.style.top=(e.clientY-rect.top)+'px'; c.appendChild(r); setTimeout(()=>r.remove(),700); }) }); }
+
+    // ====== gradient theme switch on scroll ======
+    function initScrollTheme(){
+      if(!window.ScrollTrigger || !window.gsap) return; // if gsap available use it
+      try{
+        gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.create({ start: 'top top', end: 'bottom bottom', onUpdate: self=>{
+          const p = self.progress; if(p<0.33) document.body.setAttribute('data-theme','blue'); else if(p<0.66) document.body.setAttribute('data-theme','violet'); else document.body.setAttribute('data-theme','blue');
+        }});
+      }catch(e){/* ignore */}
+    }
+
+    // ====== keyboard focus styles helper ======
     document.addEventListener('keydown', (e)=>{ if(e.key === 'Tab') document.body.classList.add('show-focus'); });
 
-    // init on DOM ready
+    // ====== init all on DOM ready ======
     window.addEventListener('DOMContentLoaded', ()=>{
-      initRevealsAndScroll();
-      highlightTools();
-      initThreeBG();
-      // hero CTA pulse (only if gsap available)
-      const hero = document.getElementById('enrollHero');
-      if (window.gsap && hero) {
-        try { gsap.to(hero, {scale: 1.03, duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut'}); } catch(e) { /* ignore */ }
-      }
+      initRevealsAndScroll(); highlightTools(); initThreeBG(); initSpotlight(); initButtons(); initCardRipples(); initScrollTheme();
+      const hero = document.getElementById('enrollHero'); if(window.gsap && hero){ try{ gsap.to(hero,{scale:1.04,duration:1.2,yoyo:true,repeat:-1,ease:'sine.inOut'}); }catch(e){} }
     });
 
-    // smooth scroll for internal links (safe)
-    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', (e)=>{ e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); }));
+    // ====== smooth scroll (safe) ======
+    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', (e)=>{ e.preventDefault(); const t=document.querySelector(a.getAttribute('href')); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); }));
 
   </script>
+  
+    
+
 </body>
 </html>
+
+
 
 
 
