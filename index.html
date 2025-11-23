@@ -64,7 +64,51 @@
     /* responsive */
     @media(max-width:800px){header{padding:60px 18px} .carousel-track{width:100%;flex-wrap:wrap;animation:none} .tool-item{width:84px;height:84px} .tool-item img{width:52px;height:52px} .grid-2{grid-template-columns:1fr}}
 
-  </style>
+  
+        /* GOD‑LEVEL PREMIUM EFFECTS */
+
+        /* 1) 3D ZOOM ON SCROLL */
+        .card-3d-tool{
+          transition: transform .5s cubic-bezier(.25,1,.5,1), box-shadow .5s;
+        }
+        .card-3d-tool.god-zoom{
+          transform: scale(1.18) translateY(-20px) rotateY(0deg) !important;
+          box-shadow:0 70px 140px rgba(0,0,0,0.9),0 0 60px rgba(26,115,232,0.7) !important;
+        }
+
+        /* 2) FLOATING PARTICLES */
+        @keyframes particleFloat {from{transform:translateY(0);}to{transform:translateY(-12px);} }
+        .particle{
+          position:absolute;
+          width:6px;height:6px;border-radius:50%;
+          background:rgba(255,255,255,0.85);
+          box-shadow:0 0 10px rgba(255,255,255,0.9);
+          animation:particleFloat 1.8s ease-in-out infinite alternate;
+          pointer-events:none;
+        }
+
+        /* 3) PARALLAX ROTATION ON PHONE TILT */
+        .parallax-tilt{
+          transform-style:preserve-3d;
+          transition: transform .25s ease-out;
+        }
+
+        /* 4) GOLDEN HIGHLIGHT FOR ALL TOOLS */
+        .card-3d-tool{
+          border:1px solid rgba(255,215,0,0.15);
+        }
+        .card-3d-tool.center{
+          border:1px solid rgba(255,215,0,0.55) !important;
+          box-shadow:0 50px 120px rgba(255,215,0,0.45),0 0 40px rgba(255,200,0,0.6) !important;
+        }
+
+        /* 5) NEON BORDER PULSE */
+        @keyframes neonPulse{0%{box-shadow:0 0 12px rgba(26,115,232,0.4);}50%{box-shadow:0 0 28px rgba(26,115,232,0.9);}100%{box-shadow:0 0 12px rgba(26,115,232,0.4);}}
+        .card-3d-tool{
+          animation:neonPulse 3s infinite;
+        }
+
+</style>
   <!-- third-party tiny-tilt for subtle tilt effect -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
 </head>
@@ -362,6 +406,8 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ document.quer
 </script>
 </body>
 </html>
+
+
 
 
 
