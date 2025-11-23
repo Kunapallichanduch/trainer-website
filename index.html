@@ -165,27 +165,107 @@
     <!-- Tools covered: colorful 3D items carousel -->
     <section class="tools-wrap reveal">
       <h2 style="text-align:center;color:var(--accent)">Tools Covered</h2>
-      <div class="carousel">
-        <div class="carousel-track" id="carouselTrack">
 
-          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968520.png" alt="pyspark"></div>
-          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968875.png" alt="kafka"></div>
-          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968332.png" alt="athena"></div>
-
-          <div class="tool-item"><img src="https://cdn.worldvectorlogo.com/logos/apache-airflow.svg" alt="airflow"></div>
-          <div class="tool-item"><img src="https://cdn.worldvectorlogo.com/logos/snowflake.svg" alt="snowflake"></div>
-          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/873/873107.png" alt="aws"></div>
-
-          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/919/919836.png" alt="dynamodb"></div>
-          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/919/919832.png" alt="redshift"></div>
-          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/919/919853.png" alt="docker"></div>
-
-          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/919/919835.png" alt="k8s"></div>
-          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png" alt="python"></div>
-          <div class="tool-item"><img src="https://raw.githubusercontent.com/goodfaces/brand-logos/master/logos/power-bi.svg" alt="powerbi"></div>
-
-        </div>
+      <!-- 3D Glass Card Carousel (always 3 visible) -->
+      <div class="three-carousel" aria-label="tools carousel">
+        <button class="carousel-btn prev" aria-label="previous">◀</button>
+        <div class="three-track" id="threeTrack"></div>
+        <button class="carousel-btn next" aria-label="next">▶</button>
       </div>
+
+      <style>
+        .three-carousel{position:relative;display:flex;align-items:center;justify-content:center;gap:12px;margin-top:30px}
+        .carousel-btn{background:transparent;border:0;color:var(--muted);font-size:20px;padding:8px;cursor:pointer}
+        .three-track{width:860px;display:flex;align-items:center;justify-content:center;gap:18px;overflow:visible}
+        .card-3d-tool{width:180px;height:220px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.02));backdrop-filter:blur(6px);box-shadow:0 20px 40px rgba(2,8,23,0.6);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:transform .4s cubic-bezier(.2,.9,.3,1),box-shadow .4s;cursor:pointer;transform-style:preserve-3d}
+        .card-3d-tool.center{transform:translateY(-10px) scale(1.08) rotateY(0deg);box-shadow:0 40px 80px rgba(2,8,40,0.6)}
+        .card-3d-tool.side{transform:translateY(0) scale(.92) rotateY(-18deg);opacity:.95}
+        .card-3d-tool img{width:96px;height:96px;object-fit:contain}
+        .card-3d-tool .label{margin-top:10px;color:var(--muted);font-weight:600}
+
+        /* Always show 3 on mobile too (scaled) */
+        @media(max-width:640px){.three-track{width:100%;gap:12px;padding:0 12px} .card-3d-tool{width:140px;height:180px} }
+      </style>
+
+      <script>
+        (function(){
+          const tools = [
+            {id:'azure',name:'Azure',img:'https://cdn-icons-png.flaticon.com/512/5968/5968342.png',link:'#courses'},
+            {id:'aws',name:'AWS',img:'https://cdn-icons-png.flaticon.com/512/873/873107.png',link:'#courses'},
+            {id:'databricks',name:'Databricks',img:'https://cdn-icons-png.flaticon.com/512/5968/5968520.png',link:'#courses'},
+            {id:'pyspark',name:'PySpark',img:'https://cdn-icons-png.flaticon.com/512/5968/5968520.png',link:'#courses'},
+            {id:'python',name:'Python',img:'https://cdn-icons-png.flaticon.com/512/5968/5968350.png',link:'#courses'},
+            {id:'sql',name:'SQL',img:'https://cdn-icons-png.flaticon.com/512/226/226777.png',link:'#courses'},
+            {id:'powerbi',name:'Power BI',img:'https://raw.githubusercontent.com/goodfaces/brand-logos/master/logos/power-bi.svg',link:'#courses'},
+            {id:'docker',name:'Docker',img:'https://cdn-icons-png.flaticon.com/512/919/919853.png',link:'#courses'},
+            {id:'k8s',name:'Kubernetes',img:'https://cdn-icons-png.flaticon.com/512/919/919835.png',link:'#courses'},
+            {id:'airflow',name:'Airflow',img:'https://cdn.worldvectorlogo.com/logos/apache-airflow.svg',link:'#courses'},
+            {id:'kafka',name:'Kafka',img:'https://cdn-icons-png.flaticon.com/512/5968/5968875.png',link:'#courses'},
+            {id:'snowflake',name:'Snowflake',img:'https://cdn.worldvectorlogo.com/logos/snowflake.svg',link:'#courses'},
+            {id:'redshift',name:'Redshift',img:'https://cdn-icons-png.flaticon.com/512/919/919832.png',link:'#courses'},
+            {id:'dynamodb',name:'DynamoDB',img:'https://cdn-icons-png.flaticon.com/512/919/919836.png',link:'#courses'},
+            {id:'athena',name:'Athena',img:'https://cdn-icons-png.flaticon.com/512/5968/5968332.png',link:'#courses'}
+          ];
+
+          const track = document.getElementById('threeTrack');
+          // build cards
+          tools.forEach(t=>{
+            const card = document.createElement('a');
+            card.className='card-3d-tool tilt';
+            card.href = t.link + (t.id? ('#'+t.id) : '');
+            card.setAttribute('data-tool',t.id);
+            card.innerHTML = `<img src="${t.img}" alt="${t.name}" loading="lazy"><div class='label'>${t.name}</div>`;
+            track.appendChild(card);
+          });
+
+          // apply tilt
+          VanillaTilt.init(document.querySelectorAll('.tilt'),{max:10,speed:400,scale:1.02});
+
+          // center index logic
+          let center = 1; // start showing first three (0,1,2) with center=1
+          function render(){
+            const cards = Array.from(track.children);
+            cards.forEach((c,i)=>{c.classList.remove('center','side'); c.style.order = i; c.style.display='inline-flex';});
+            // pick visible indexes: center-1, center, center+1
+            const left = (center-1+cards.length)%cards.length;
+            const right = (center+1)%cards.length;
+            cards.forEach((c,i)=>{
+              if(i===center) c.classList.add('center');
+              else if(i===left || i===right) c.classList.add('side');
+              else c.style.opacity=0; // hide others
+            });
+            // ensure visible ones have full opacity
+            [left,center,right].forEach(i=>{cards[i].style.opacity=1});
+          }
+          render();
+
+          // navigation
+          function next(){ center = (center+1) % track.children.length; render(); }
+          function prev(){ center = (center-1+track.children.length) % track.children.length; render(); }
+          document.querySelector('.three-carousel .next').addEventListener('click', next);
+          document.querySelector('.three-carousel .prev').addEventListener('click', prev);
+
+          // auto play
+          let autoplay = setInterval(next,3000);
+          document.querySelector('.three-carousel').addEventListener('mouseenter', ()=> clearInterval(autoplay));
+          document.querySelector('.three-carousel').addEventListener('mouseleave', ()=> autoplay=setInterval(next,3000));
+
+          // make cards clickable and jump to course section with mapping
+          document.getElementById('threeTrack').addEventListener('click', (e)=>{
+            const a = e.target.closest('a.card-3d-tool');
+            if(!a) return;
+            const tool = a.getAttribute('data-tool');
+            // mapping tool -> course anchor
+            const map = {azure:'#courses',aws:'#courses',databricks:'#courses',pyspark:'#courses',python:'#courses',sql:'#courses',powerbi:'#courses'};
+            const anchor = map[tool] || '#courses';
+            // smooth scroll
+            const target = document.querySelector(anchor);
+            if(target){ target.scrollIntoView({behavior:'smooth',block:'start'}); }
+          });
+
+        })();
+      </script>
+
     </section>
 
     <!-- Works & Books -->
@@ -258,6 +338,8 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ document.quer
 </script>
 </body>
 </html>
+
+
 
 
 
