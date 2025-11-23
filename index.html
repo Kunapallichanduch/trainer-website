@@ -185,7 +185,30 @@
 
         /* Always show 3 on mobile too (scaled) */
         @media(max-width:640px){.three-track{width:100%;gap:12px;padding:0 12px} .card-3d-tool{width:140px;height:180px} }
-      </style>
+
+        /* --- D) ULTRA PREMIUM INSTITUTE STYLE --- */
+        .card-3d-tool{position:relative;}
+        .card-3d-tool.center{
+          box-shadow:0 55px 120px rgba(0,0,0,0.75),0 0 40px rgba(26,115,232,0.55);
+          border:1px solid rgba(255,255,255,0.08);
+        }
+        .card-3d-tool.side{
+          box-shadow:0 25px 60px rgba(0,0,0,0.55);
+        }
+        .card-3d-tool .label{
+          font-size:15px;
+          text-transform:uppercase;
+          letter-spacing:0.5px;
+          text-shadow:0 0 6px rgba(255,255,255,0.4);
+        }
+        /* subtle background mesh */
+        .tools-wrap{
+          background:radial-gradient(circle at 50% 20%, rgba(40,70,120,0.35), transparent 60%),
+                     radial-gradient(circle at 80% 80%, rgba(20,40,90,0.25), transparent 70%);
+          border-radius:20px;
+          padding:20px 0;
+        }
+</style>
 
       <script>
         (function(){
@@ -331,15 +354,15 @@ window.addEventListener('mousemove', (e)=>{
   header.style.transform = `perspective(900px) translateZ(0) rotateY(${x}deg) rotateX(${-y}deg)`;
 });
 
-// slow carousel pause on hover
-const track = document.getElementById('carouselTrack');
-track.addEventListener('mouseenter', ()=> track.style.animationPlayState='paused');
-track.addEventListener('mouseleave', ()=> track.style.animationPlayState='running');
+// slow carousel pause on hover — (fixed)
+// no-op: old carouselTrack reference removed to prevent JS errors
 
 // reduce motion for prefers-reduced-motion
 if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ document.querySelectorAll('.blob').forEach(b=>b.style.display='none'); track.style.animation='none'; }
 </script>
 </body>
 </html>
+
+
 
 
