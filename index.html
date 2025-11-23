@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chandhu - Premium Data Engineering Trainer</title>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #0d0f16; color: #fff; overflow-x: hidden; }
+
+    /* Smooth scrolling */
+    html { scroll-behavior: smooth; }
+
+    /* Header */
+    header { text-align: center; padding: 100px 20px; background: linear-gradient(135deg, #1a73e8, #0d47a1); animation: fadeIn 2s ease; }
+    header h1 { font-size: 48px; margin: 0; font-weight: 700; }
+    header p { font-size: 18px; opacity: 0.9; }
+
+    /* Floating animation */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Section styling */
+    section { padding: 60px 20px; max-width: 1100px; margin: auto; animation: fadeInUp 1.2s ease; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 { font-size: 32px; color: #4da3ff; margin-bottom: 20px; text-align: center; }
+
+    .card { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; margin-bottom: 25px; backdrop-filter: blur(8px); box-shadow: 0 0 20px rgba(0,0,0,0.4); }
+
+    .course-box { border-left: 6px solid #4da3ff; padding: 20px; margin-bottom: 25px; background: rgba(255,255,255,0.06); border-radius: 10px; animation: float 4s ease-in-out infinite; }
+
+    /* CTA Button */
+    .cta-btn { display: inline-block; padding: 14px 30px; background: #1a73e8; color: #fff; border-radius: 8px; text-decoration: none; font-size: 18px; margin-top: 15px; transition: 0.3s; }
+    .cta-btn:hover { background: #4da3ff; transform: scale(1.05); }
+
+    /* Footer */
+    footer { background: #000; text-align: center; padding: 30px; margin-top: 60px; color: #666; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>KUNAPALLI CHANDHU</h1>
+    <p>Premium Data Engineering Trainer • Azure • AWS • PySpark • SQL • Power BI</p>
+    <p>Mobile: +91-8088032518 | Email: kunapallichandu@gmail.com</p>
+    <a href="#courses" class="cta-btn">View Courses</a>
+  </header>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <div class="card">
+      <p>I'm a Data Engineer & Technical Trainer with 3.4 years of experience delivering real-time, production-grade data solutions using Azure, AWS, Databricks, PySpark, SQL, and Power BI. My training style is practical, project-based, and tailored for job readiness. I have trained interns, freshers, and professionals with real-world cloud architectures and end‑to‑end ETL pipelines.</p>
+    </div>
+  </section>
+
+  <section id="courses">
+    <h2>Training Courses Offered</h2>
+
+    <div class="course-box">
+      <h3>⭐ Azure Data Engineering (60 Days)</h3>
+      <p>ADF • Synapse • Databricks • Delta Lake • CI/CD • Real-Time Project</p>
+      <strong>Pricing: ₹10,000 – ₹15,000</strong><br>
+      <a class="cta-btn" href="#contact">Enroll Now</a>
+    </div>
+
+    <div class="course-box">
+      <h3>⭐ AWS Data Engineering (45 Days)</h3>
+      <p>S3 • Glue • Lambda • Athena • CloudWatch • Redshift</p>
+      <strong>Pricing: ₹9,000 – ₹12,000</strong><br>
+      <a class="cta-btn" href="#contact">Enroll Now</a>
+    </div>
+
+    <div class="course-box">
+      <h3>SQL Mastery – 30 Days</h3>
+      <p>Joins • CTE • Window Functions • 200+ Interview Problems</p>
+      <strong>Pricing: ₹4,000 – ₹6,000</strong><br>
+      <a class="cta-btn" href="#contact">Enroll Now</a>
+    </div>
+
+    <div class="course-box">
+      <h3>Python for Data Engineering – 30 Days</h3>
+      <p>APIs • JSON • Automation • ETL Scripts</p>
+      <strong>Pricing: ₹5,000 – ₹7,000</strong><br>
+      <a class="cta-btn" href="#contact">Enroll Now</a>
+    </div>
+
+    <div class="course-box">
+      <h3>Databricks + PySpark – 45 Days</h3>
+      <p>Transformations • Actions • Delta • Autoloader • MLflow</p>
+      <strong>Pricing: ₹8,000 – ₹12,000</strong><br>
+      <a class="cta-btn" href="#contact">Enroll Now</a>
+    </div>
+
+    <div class="course-box">
+      <h3>Power BI – 25 Days</h3>
+      <p>DAX • KPIs • Dashboard Design • Data Modeling</p>
+      <strong>Pricing: ₹4,000 – ₹7,000</strong><br>
+      <a class="cta-btn" href="#contact">Enroll Now</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Combo Courses</h2>
+    <div class="card">
+      <p><strong>Full Data Engineer Combo:</strong> Azure + SQL + Python + Databricks + Power BI — ₹18,000–₹25,000</p>
+      <p><strong>Azure + SQL:</strong> ₹10,000–₹12,000</p>
+      <p><strong>Azure + Databricks:</strong> ₹12,000–₹16,000</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Real-Time Projects Included</h2>
+    <div class="card">
+      <ul>
+        <li>E‑commerce Data Pipeline (ADF + Databricks + Synapse + Power BI)</li>
+        <li>Crypto Analytics Pipeline (PySpark + Delta)</li>
+        <li>Real-Time News Aggregation (Python + Spark)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact & Enrollment</h2>
+    <div class="card">
+      <p>📞 <strong>Phone:</strong> +91‑8088032518</p>
+      <p>📧 <strong>Email:</strong> kunapallichandu@gmail.com</p>
+      <p>💬 WhatsApp Support Available</p>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Chandhu Premium Training | All Rights Reserved
+  </footer>
+
+</body>
+</html>
