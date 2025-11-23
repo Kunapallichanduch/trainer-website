@@ -1,294 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chandhu - Premium Data Engineering Trainer</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chandhu • Premium 3D Data Engineering Trainer</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #0d0f16; color: #fff; overflow-x: hidden; }
-
-    /* Smooth scrolling */
-    html { scroll-behavior: smooth; }
-
-    /* Header */
-    header { text-align: center; padding: 100px 20px; background: linear-gradient(135deg, #1a73e8, #0d47a1); animation: fadeIn 2s ease; }
-    header h1 { font-size: 48px; margin: 0; font-weight: 700; }
-    header p { font-size: 18px; opacity: 0.9; }
-
-    /* Floating animation */
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0px); }
+    :root{
+      --bg:#0d0f16; --card:#0f1720; --accent:#1a73e8; --muted:#97b6df;
+      --glass: rgba(255,255,255,0.04);
     }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;color:#e6f0ff;background:var(--bg);}
 
-    /* Section styling */
-    section { padding: 60px 20px; max-width: 1100px; margin: auto; animation: fadeInUp 1.2s ease; }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    /* ---------- Floating Blobs (3D-like) ---------- */
+    .blob { position:fixed; border-radius:50%; filter: blur(20px) saturate(130%); opacity:0.55; z-index:-2; transform: translate3d(0,0,0); }
+    .blob.a{width:480px;height:480px; background:linear-gradient(135deg,#0d47a1,#4da3ff); top:-120px; left:-160px; animation: blobMove 12s infinite alternate ease-in-out;}
+    .blob.b{width:360px;height:360px; background:linear-gradient(135deg,#072a73,#1a73e8); right:-120px; bottom:-120px; animation: blobMove 10s infinite alternate-reverse ease-in-out;}
+    @keyframes blobMove{to{transform:translate3d(40px,-30px,0) scale(1.03)}}
 
-    h2 { font-size: 32px; color: #4da3ff; margin-bottom: 20px; text-align: center; }
+    /* header */
+    header{position:relative;padding:90px 20px 120px;text-align:center;background:linear-gradient(180deg,rgba(26,115,232,0.95),#0d47a1);overflow:hidden}
+    header h1{font-size:44px;margin:0;color:#fff;letter-spacing:1px;font-weight:800}
+    header p{margin:12px 0 0;color:rgba(255,255,255,0.9)}
 
-    .card { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; margin-bottom: 25px; backdrop-filter: blur(8px); box-shadow: 0 0 20px rgba(0,0,0,0.4); }
+    /* neon CTA */
+    .cta-btn{display:inline-block;margin-top:22px;padding:12px 28px;border-radius:12px;background:linear-gradient(90deg,#2b7df0,#66b2ff);color:#fff;font-weight:600;text-decoration:none;box-shadow:0 10px 30px rgba(26,115,232,0.25);transform:translateZ(0);transition:transform .18s ease,box-shadow .18s}
+    .cta-btn:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 22px 60px rgba(26,115,232,0.35)}
 
-    .course-box { border-left: 6px solid #4da3ff; padding: 20px; margin-bottom: 25px; background: rgba(255,255,255,0.06); border-radius: 10px; animation: float 4s ease-in-out infinite; }
+    /* main container */
+    main{max-width:1100px;margin:-60px auto 60px;padding:0 20px}
 
-    /* CTA Button */
-    .cta-btn { display: inline-block; padding: 14px 30px; background: #1a73e8; color: #fff; border-radius: 8px; text-decoration: none; font-size: 18px; margin-top: 15px; transition: 0.3s; }
-    .cta-btn:hover { background: #4da3ff; transform: scale(1.05); }
+    /* 3D course cards */
+    .courses{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;margin-top:20px}
+    .card3d{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:16px;padding:22px;backdrop-filter:blur(6px);box-shadow:0 12px 30px rgba(2,8,23,0.6);transition:transform .25s cubic-bezier(.2,.9,.3,1),box-shadow .25s;transform-style:preserve-3d;cursor:pointer}
+    .card3d:hover{transform:translateY(-18px) rotateX(6deg) rotateY(-6deg) scale(1.02);box-shadow:0 40px 80px rgba(10,20,80,0.6)}
+    .card3d h3{margin:0 0 8px;color:#dff0ff}
+    .card3d p{color:var(--muted);margin:0 0 12px}
+    .price{display:inline-block;padding:8px 14px;background:linear-gradient(90deg,#081a3a,#1b3a78);border-radius:10px;color:#fff;font-weight:700}
 
-    /* Footer */
-    footer { background: #000; text-align: center; padding: 30px; margin-top: 60px; color: #666; }
-    /* Scroll Reveal */
-    .reveal { opacity: 0; transform: translateY(40px); transition: 1s all ease; }
-    .reveal.active { opacity: 1; transform: translateY(0px); }
+    /* 3D tilt: tiny-tilt container */
+    .tilt{transform-style:preserve-3d}
 
-    /* Floating tech icons */
-    
-    @keyframes floatIcons {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-      100% { transform: translateY(0px); }
-    }
+    /* Tools covered 3D carousel */
+    .tools-wrap{margin:60px auto 30px;perspective:1200px}
+    .carousel{width:100%;height:220px;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d}
+    .carousel-track{width:760px;height:160px;display:flex;align-items:center;justify-content:space-around;transform-style:preserve-3d;animation:spin 18s linear infinite}
+    .tool-item{width:120px;height:120px;border-radius:14px;background:linear-gradient(180deg,#fff, #e9f5ff);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(2,8,23,0.6);transform:translateZ(40px);}
+    .tool-item img{width:72px;height:72px;object-fit:contain}
+    @keyframes spin{0%{transform:rotateY(0deg)}100%{transform:rotateY(360deg)}}
 
-    /* Gradient wave animation */
-    .animated-gradient {
-      background: linear-gradient(270deg, #1a73e8, #0d47a1, #072a73);
-      background-size: 600% 600%;
-      animation: gradientMove 12s ease infinite;
-    }
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-</style>
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    /* parallax container */
+    .parallax{position:relative;overflow:hidden}
+
+    /* works & books */
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .card-simple{background:var(--glass);padding:20px;border-radius:12px}
+
+    /* footer */
+    footer{padding:30px;text-align:center;color:#9fb3d6}
+
+    /* responsive */
+    @media(max-width:800px){header{padding:60px 18px} .carousel-track{width:100%;flex-wrap:wrap;animation:none} .tool-item{width:84px;height:84px} .tool-item img{width:52px;height:52px} .grid-2{grid-template-columns:1fr}}
+
+  </style>
+  <!-- third-party tiny-tilt for subtle tilt effect -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
 </head>
 <body>
-  <!-- PARTICLE BACKGROUND -->
-  <div id="particles-js" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;"></div>
+  <!-- floating blobs -->
+  <div class="blob a"></div>
+  <div class="blob b"></div>
 
-
-  <header class="animated-gradient">
-    <!-- FLOATING TECH ICONS -->
-    
-    
-    
-    
-
-<header class="animated-gradient">
+  <header>
     <h1>KUNAPALLI CHANDHU</h1>
-    <p>Premium Data Engineering Trainer • Azure • AWS • PySpark • SQL • Power BI</p>
-    <p>Mobile: +91-8088032518 | Email: kunapallichandu@gmail.com</p>
-    <a href="#courses" class="cta-btn">View Courses</a>
+    <p>Premium 3D Data Engineering Trainer • Azure • AWS • Databricks • SQL • Power BI</p>
+    <p style="opacity:.95;margin-top:10px">Mobile: +91-8088032518 | Email: kunapallichandu@gmail.com</p>
+    <a class="cta-btn" href="#courses">View Courses</a>
   </header>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <div class="card">
-      <p>I'm a Data Engineer & Technical Trainer with 3.4 years of experience delivering real-time, production-grade data solutions using Azure, AWS, Databricks, PySpark, SQL, and Power BI. My training style is practical, project-based, and tailored for job readiness. I have trained interns, freshers, and professionals with real-world cloud architectures and end‑to‑end ETL pipelines.</p>
-    </div>
-  </section>
+  <main>
+    <!-- About -->
+    <section id="about" class="parallax reveal">
+      <div class="card-simple">
+        <p>I'm a Data Engineer & Technical Trainer with 3.4 years of experience building production-grade data solutions using Azure & AWS, Databricks, PySpark, SQL and Delta Lake. My training is practical, project-based and job-oriented.</p>
+      </div>
+    </section>
 
-  <section id="courses">
-    <h2>Training Courses Offered</h2>
+    <!-- Courses with 3D cards -->
+    <section id="courses" class="reveal">
+      <h2 style="text-align:center;color:var(--accent)">Courses — Premium 3D Editions</h2>
+      <div class="courses">
 
-    <div class="course-box">
-      <h3>⭐ Azure Data Engineering (60 Days)</h3>
-      <p>ADF • Synapse • Databricks • Delta Lake • CI/CD • Real-Time Project</p>
-      <strong>Pricing: ₹30,000</strong></strong><br>
-      <a class="cta-btn" href="#contact">Enroll Now</a>
-    </div>
+        <div class="tilt" data-tilt data-tilt-max="8">
+          <div class="card3d">
+            <h3>Azure Data Engineering (60 days)</h3>
+            <p>ADF • Databricks • Synapse • Delta Lake • CI/CD • Real projects</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+              <span class="price">₹30,000</span>
+              <a class="cta-btn" href="#contact">Enroll</a>
+            </div>
+          </div>
+        </div>
 
-    <div class="course-box">
-      <h3>⭐ AWS Data Engineering (45 Days)</h3>
-      <p>S3 • Glue • Lambda • Athena • CloudWatch • Redshift</p>
-      <strong>Pricing: ₹30,000</strong></strong><br>
-      <a class="cta-btn" href="#contact">Enroll Now</a>
-    </div>
+        <div class="tilt" data-tilt data-tilt-max="8">
+          <div class="card3d">
+            <h3>AWS Data Engineering (45 days)</h3>
+            <p>S3 • Glue • Lambda • Redshift • Athena • ETL Projects</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+              <span class="price">₹30,000</span>
+              <a class="cta-btn" href="#contact">Enroll</a>
+            </div>
+          </div>
+        </div>
 
-    <div class="course-box">
-      <h3>SQL Mastery – 30 Days</h3>
-      <p>Joins • CTE • Window Functions • 200+ Interview Problems</p>
-      <strong>Pricing: ₹19,999</strong><br>
-      <a class="cta-btn" href="#contact">Enroll Now</a>
-    </div>
+        <div class="tilt" data-tilt data-tilt-max="8">
+          <div class="card3d">
+            <h3>SQL Mastery (30 days)</h3>
+            <p>Joins • Window functions • Optimization • 200+ interview questions</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+              <span class="price">₹19,999</span>
+              <a class="cta-btn" href="#contact">Enroll</a>
+            </div>
+          </div>
+        </div>
 
-    <div class="course-box">
-      <h3>Python for Data Engineering – 30 Days</h3>
-      <p>APIs • JSON • Automation • ETL Scripts</p>
-      <strong>Pricing: ₹19,999</strong><br>
-      <a class="cta-btn" href="#contact">Enroll Now</a>
-    </div>
+        <div class="tilt" data-tilt data-tilt-max="8">
+          <div class="card3d">
+            <h3>Python for Data Engineering</h3>
+            <p>APIs • ETL scripts • Automation • Data pipelines</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+              <span class="price">₹19,999</span>
+              <a class="cta-btn" href="#contact">Enroll</a>
+            </div>
+          </div>
+        </div>
 
-    <div class="course-box">
-      <h3>Databricks + PySpark – 45 Days</h3>
-      <p>Transformations • Actions • Delta • Autoloader • MLflow</p>
-      <strong>Pricing: ₹30,000</strong></strong><br>
-      <a class="cta-btn" href="#contact">Enroll Now</a>
-    </div>
+        <div class="tilt" data-tilt data-tilt-max="8">
+          <div class="card3d">
+            <h3>Databricks + PySpark</h3>
+            <p>Transformations • Autoloader • Delta • MLflow • Production ETL</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+              <span class="price">₹30,000</span>
+              <a class="cta-btn" href="#contact">Enroll</a>
+            </div>
+          </div>
+        </div>
 
-    <div class="course-box">
-      <h3>Power BI – 25 Days</h3>
-      <p>DAX • KPIs • Dashboard Design • Data Modeling</p>
-      <strong>Pricing: ₹19,999</strong><br>
-      <a class="cta-btn" href="#contact">Enroll Now</a>
-    </div>
-  </section>
+        <div class="tilt" data-tilt data-tilt-max="8">
+          <div class="card3d">
+            <h3>Power BI — Dashboarding</h3>
+            <p>DAX • Modeling • KPI dashboards • Storytelling with data</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+              <span class="price">₹19,999</span>
+              <a class="cta-btn" href="#contact">Enroll</a>
+            </div>
+          </div>
+        </div>
 
-  <section>
-    <h2>Combo Courses</h2>
-    <div class="card">
-      <p><strong>Full Data Engineer Combo:</strong> Azure + SQL + Python + Databricks + Power BI — ₹18,000–₹25,000</p>
-      <p><strong>Azure + SQL:</strong> ₹10,000–₹12,000</p>
-      <p><strong>Azure + Databricks:</strong> ₹12,000–₹16,000</p>
-    </div>
-  </section>
+      </div>
+    </section>
 
-  <section>
-    <h2>Real-Time Projects Included</h2>
-    <div class="card">
-      <ul>
-        <li>E‑commerce Data Pipeline (ADF + Databricks + Synapse + Power BI)</li>
-        <li>Crypto Analytics Pipeline (PySpark + Delta)</li>
-        <li>Real-Time News Aggregation (Python + Spark)</li>
-      </ul>
-    </div>
-  </section>
+    <!-- Tools covered: colorful 3D items carousel -->
+    <section class="tools-wrap reveal">
+      <h2 style="text-align:center;color:var(--accent)">Tools Covered</h2>
+      <div class="carousel">
+        <div class="carousel-track" id="carouselTrack">
 
-  <section id="contact">
-    <h2>Contact & Enrollment</h2>
-    <div class="card">
-      <p>📞 <strong>Phone:</strong> +91‑8088032518</p>
-      <p>📧 <strong>Email:</strong> kunapallichandu@gmail.com</p>
-      <p>💬 WhatsApp Support Available</p>
-    </div>
-  </section>
+          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968520.png" alt="pyspark"></div>
+          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968875.png" alt="kafka"></div>
+          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968332.png" alt="athena"></div>
 
-  <!-- TOOLS COVERED SECTION -->
-  <section id="tools-covered" class="reveal">
-    <h2>Tools Covered</h2>
-    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:40px; text-align:center; padding:20px;">
+          <div class="tool-item"><img src="https://cdn.worldvectorlogo.com/logos/apache-airflow.svg" alt="airflow"></div>
+          <div class="tool-item"><img src="https://cdn.worldvectorlogo.com/logos/snowflake.svg" alt="snowflake"></div>
+          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/873/873107.png" alt="aws"></div>
 
-      <!-- PySpark -->
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968520.png" style="height:70px; filter: drop-shadow(0 0 6px #ff7f00);">
+          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/919/919836.png" alt="dynamodb"></div>
+          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/919/919832.png" alt="redshift"></div>
+          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/919/919853.png" alt="docker"></div>
 
-      <!-- Kafka -->
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968875.png" style="height:70px; filter: drop-shadow(0 0 6px #000);">
+          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/919/919835.png" alt="k8s"></div>
+          <div class="tool-item"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png" alt="python"></div>
+          <div class="tool-item"><img src="https://raw.githubusercontent.com/goodfaces/brand-logos/master/logos/power-bi.svg" alt="powerbi"></div>
 
-      <!-- Airflow -->
-      <img src="https://cdn.worldvectorlogo.com/logos/apache-airflow.svg" style="height:70px; filter: drop-shadow(0 0 6px #00b3ff);">
+        </div>
+      </div>
+    </section>
 
-      <!-- Snowflake -->
-      <img src="https://cdn.worldvectorlogo.com/logos/snowflake.svg" style="height:70px; filter: drop-shadow(0 0 6px #00c3ff);">
+    <!-- Works & Books -->
+    <section class="reveal">
+      <div class="grid-2">
+        <div>
+          <h2 style="color:var(--accent)">Works & Projects</h2>
+          <div class="card-simple">
+            <ul>
+              <li>E‑commerce Data Pipeline (Walmart) — 21M+ records, ADF + Synapse + Databricks</li>
+              <li>Crypto Price Prediction (Elliptic) — Databricks + MLflow</li>
+              <li>Real-Time News Aggregation (CoinDesk) — Python + Spark</li>
+            </ul>
+          </div>
+        </div>
 
-      <!-- AWS (general) -->
-      <img src="https://cdn-icons-png.flaticon.com/512/873/873107.png" style="height:70px; filter: drop-shadow(0 0 6px #ffaa00);">
+        <div>
+          <h2 style="color:var(--accent)">Books & Publications</h2>
+          <div class="card-simple">
+            <ul>
+              <li>Geometrical Shapes Coloring Books</li>
+              <li>Kids Learning & Activity Books</li>
+              <li>Premium Illustrated Story Books</li>
+            </ul>
+            <p style="margin-top:12px"><a class="cta-btn" href="/mnt/data/KUNAPALLI CHANDHU (TRAINER) (1).pdf" target="_blank">Download Resume (PDF)</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      <!-- AWS Athena -->
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968332.png" style="height:70px; filter: drop-shadow(0 0 6px #ff9900);">
+    <!-- Contact -->
+    <section id="contact" class="reveal">
+      <h2 style="text-align:center;color:var(--accent)">Contact & Enrollment</h2>
+      <div class="card-simple" style="text-align:center">
+        <p>Phone: +91-8088032518</p>
+        <p>Email: kunapallichandu@gmail.com</p>
+        <p style="margin-top:12px"><a class="cta-btn" href="tel:+918088032518">Call Now</a> <a class="cta-btn" href="mailto:kunapallichandu@gmail.com" style="margin-left:12px">Email</a></p>
+      </div>
+    </section>
 
-      <!-- AWS Glue -->
-      <img src="https://cdn-icons-png.flaticon.com/512/919/919822.png" style="height:70px; filter: drop-shadow(0 0 6px #ff8800);">
-
-      <!-- DynamoDB -->
-      <img src="https://cdn-icons-png.flaticon.com/512/919/919836.png" style="height:70px; filter: drop-shadow(0 0 6px #006eff);">
-
-      <!-- Redshift -->
-      <img src="https://cdn-icons-png.flaticon.com/512/919/919832.png" style="height:70px; filter: drop-shadow(0 0 6px #0042ff);">
-
-      <!-- Docker -->
-      <img src="https://cdn-icons-png.flaticon.com/512/919/919853.png" style="height:70px; filter: drop-shadow(0 0 6px #00aaff);">
-
-      <!-- Kubernetes -->
-      <img src="https://cdn-icons-png.flaticon.com/512/919/919835.png" style="height:70px; filter: drop-shadow(0 0 6px #00a2ff);">
-
-      <!-- Python -->
-      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png" style="height:70px; filter: drop-shadow(0 0 6px #ffd43b);">
-
-    </div>
-</section>
-
-  <!-- WORKS & PROJECTS SECTION -->
-  <section id="works">
-    <h2>My Works & Real-Time Projects</h2>
-    <div class="card">
-      <ul>
-        <li>Azure Data Engineering – End-to-End ADF Pipelines</li>
-        <li>AWS Data Engineering – S3, Glue, Lambda, Athena Workflows</li>
-        <li>Databricks PySpark Transformations & Delta Lake Architectures</li>
-        <li>Power BI KPI Dashboards & Enterprise Reporting</li>
-        <li>ETL/ELT Automation using Python & Cloud Services</li>
-        <li>Corporate Training Sessions for Freshers & Engineers</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- BOOKS SECTION -->
-  <section id="books">
-    <h2>My Books & Publications</h2>
-    <div class="card">
-      <p>I create and publish high‑quality digital books in multiple categories:</p>
-      <ul>
-        <li>Geometrical Shapes Coloring Books</li>
-        <li>Kids Learning & Activity Books</li>
-        <li>Premium Illustrated Story Books</li>
-        <li>Character-Based Coloring Books</li>
-        <li>Motivational & Educational Books</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- BOOKS SECTION -->
-  <section id="books">
-    <h2>My Books & Publications</h2>
-    <div class="card">
-      <p>I also design and publish high-quality digital books:</p>
-      <ul>
-        <li>Geometrical Shapes Coloring Books</li>
-        <li>Kids Learning & Activity Books</li>
-        <li>Premium Story Books</li>
-        <li>Character-Based Coloring Books</li>
-        <li>Motivational & Educational Book Designs</li>
-      </ul>
-    </div>
-  </section>
-
-  
+  </main>
 
   <footer>
     © 2025 Chandhu Premium Training | All Rights Reserved
   </footer>
 
 <script>
-// Scroll reveal effect
-function reveal() {
-  let reveals = document.querySelectorAll('.reveal');
-  for (let i = 0; i < reveals.length; i++) {
-    let windowHeight = window.innerHeight;
-    let elementTop = reveals[i].getBoundingClientRect().top;
-    let elementVisible = 150;
-    if (elementTop < windowHeight - elementVisible) {
-      reveals[i].classList.add('active');
-    }
-  }
-}
-window.addEventListener('scroll', reveal);
-reveal();
+// initialize tiny-tilt
+VanillaTilt.init(document.querySelectorAll('.tilt'),{max:8,speed:400,scale:1.02});
 
-// Particles.js Config
-particlesJS('particles-js', {
-  particles: {
-    number: { value: 90 },
-    size: { value: 3 },
-    color: { value: '#4da3ff' },
-    line_linked: { enable: true, color: '#4da3ff' },
-    move: { speed: 2 }
-  }
+// reveal on scroll
+function reveal(){document.querySelectorAll('.reveal').forEach(el=>{let r=el.getBoundingClientRect().top; if(r<window.innerHeight-120) el.style.opacity=1, el.style.transform='translateY(0)';});}
+window.addEventListener('scroll',reveal); reveal();
+
+// parallax for header using mouse move
+const header = document.querySelector('header');
+window.addEventListener('mousemove', (e)=>{
+  const x = (e.clientX - window.innerWidth/2)/40;
+  const y = (e.clientY - window.innerHeight/2)/60;
+  header.style.transform = `perspective(900px) translateZ(0) rotateY(${x}deg) rotateX(${-y}deg)`;
 });
+
+// slow carousel pause on hover
+const track = document.getElementById('carouselTrack');
+track.addEventListener('mouseenter', ()=> track.style.animationPlayState='paused');
+track.addEventListener('mouseleave', ()=> track.style.animationPlayState='running');
+
+// reduce motion for prefers-reduced-motion
+if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ document.querySelectorAll('.blob').forEach(b=>b.style.display='none'); track.style.animation='none'; }
 </script>
 </body>
 </html>
