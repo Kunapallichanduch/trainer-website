@@ -1,267 +1,621 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kunapalli Chandhu | Data & GenAI Engineer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kunapalli Chandhu • Data & GenAI Architecture Console</title>
+  <meta name="description" content="Kunapalli Chandhu — Data Engineer & Technical Trainer. Azure, Databricks, PySpark, LangGraph, and Local LLM RAG pipelines." />
+  <meta property="og:title" content="Kunapalli Chandhu • Data & GenAI Console" />
+  <meta property="og:description" content="Production-scale data pipelines and multi-agent GenAI architectures." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- GSAP + ScrollTrigger + Three.js + FontAwesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg: #030712;
+      --card: #0b0f19;
+      --accent: #06b6d4;
+      --accent-blue: #3b82f6;
+      --muted: #94a3b8;
+      --glass: rgba(15, 23, 42, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.05);
+      --gold: #f59e0b;
+      --success: #10b981;
+      --error: #ef4444;
+    }
+    * { box-sizing: border-box; selection-background: rgba(6, 182, 212, 0.2); }
+    html, body { height: 100%; margin: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; color: #f1f5f9; background-color: var(--bg); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+    /* Layout Elements */
+    header { position: relative; padding: 100px 20px 140px; text-align: center; overflow: hidden; border-b: 1px solid var(--glass-border); }
+    .hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 6; }
+    h1 { font-size: 52px; margin: 0; color: #fff; font-weight: 800; letter-spacing: -1px; line-height: 1.1; }
+    h1 span { background: linear-gradient(90deg, #22d3ee, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    .sub { margin-top: 14px; color: var(--accent); font-family: 'Fira Code', monospace; font-weight: 500; font-size: 18px; min-height: 28px; }
+    .contact-line { margin-top: 16px; color: var(--muted); font-size: 14px; font-weight: 500; }
+    .contact-line a { color: #f1f5f9; text-decoration: none; transition: color 0.2s; }
+    .contact-line a:hover { color: var(--accent); }
+
+    /* Admin Photo Layer */
+    .profile-container { position: relative; width: 130px; height: 130px; margin: 0 auto 20px; }
+    #profilePhoto { width: 130px; height: 130px; border-radius: 24px; object-fit: cover; border: 2px solid rgba(6, 182, 212, 0.3); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+    #enableUploadBtn { margin-bottom: 14px; padding: 6px 12px; font-size: 11px; font-family: 'Fira Code', monospace; border-radius: 6px; background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--glass-border); cursor: pointer; transition: all 0.2s; }
+    #enableUploadBtn:hover { background: rgba(6, 182, 212, 0.1); color: #fff; border-color: var(--accent); }
+
+    /* System Badges / KPI Grid */
+    .telemetry-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-w: 700px; margin: 30px auto 0; }
+    .telemetry-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; padding: 12px; text-align: center; backdrop-filter: blur(10px); }
+    .telemetry-val { font-size: 20px; font-weight: 700; color: #fff; font-family: 'Fira Code', monospace; }
+    .telemetry-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; tracking-widest: 1px; margin-top: 2px; }
+
+    /* Navigation Custom Tabs */
+    .tab-container { max-width: 1100px; margin: -40px auto 30px; padding: 0 20px; position: relative; z-index: 10; }
+    .tab-bar { display: flex; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--glass-border); padding: 6px; border-radius: 16px; backdrop-filter: blur(12px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); gap: 4px; }
+    .tab-btn { flex: 1; background: transparent; border: none; color: var(--muted); padding: 14px 20px; font-family: 'Fira Code', monospace; font-size: 13px; font-weight: 600; border-radius: 10px; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .tab-btn i { font-size: 14px; }
+    .tab-btn:hover { color: #fff; background: rgba(255,255,255,0.02); }
+    .tab-btn.active { color: #030712; background: linear-gradient(90deg, #22d3ee, #3b82f6); font-weight: 700; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3); }
+
+    /* Main Console Viewports */
+    main { max-width: 1100px; margin: 0 auto 80px; padding: 0 20px; position: relative; z-index: 6; }
+    .console-panel { display: none; animation: panelFade 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+    .console-panel.active { display: block; }
+    @keyframes panelFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Standardized Modular Containers */
+    .panel-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .panel-header h2 { font-size: 22px; font-weight: 700; margin: 0; color: #fff; }
+    .panel-header i { color: var(--accent); font-size: 20px; }
+    .glass-card { background: var(--glass); border: 1px solid var(--glass-border); padding: 24px; border-radius: 16px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+
+    /* Courses & Architectures Grid Mapping */
+    .item-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+    .card3d { background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border: 1px solid var(--glass-border); border-radius: 16px; padding: 24px; position: relative; transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: space-between; }
+    .card3d:hover { border-color: rgba(6, 182, 212, 0.3); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(6, 182, 212, 0.05); }
+    .card3d h3 { font-size: 18px; margin: 0 0 10px; color: #f8fafc; font-weight: 700; padding-right: 60px; }
+    .card3d p { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 0 0 20px; }
+    .card3d .tag-badge { position: absolute; right: 16px; top: 22px; font-size: 9px; font-family: 'Fira Code', monospace; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); color: var(--accent); padding: 4px 8px; border-radius: 6px; font-weight: 700; text-transform: uppercase; }
+    .card3d.gold-tier { border-color: rgba(245, 158, 11, 0.2); }
+    .card3d.gold-tier .tag-badge { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); color: var(--gold); }
+    .card3d.gold-tier:hover { border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(245, 158, 11, 0.05); }
+
+    /* Action Trigger Components */
+    .card-footer { display: flex; align-items: center; justify-content: justify; margin-top: auto; gap: 10px;}
+    .price-tag { font-family: 'Fira Code', monospace; font-size: 16px; font-weight: 700; color: #fff; }
+    .action-link { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; text-decoration: none; transition: all 0.2s; cursor: pointer; }
+    .action-link.primary { background: #1e293b; color: #f8fafc; border: 1px solid var(--glass-border); }
+    .action-link.primary:hover { background: var(--accent); color: #030712; border-color: var(--accent); }
+    .action-link.secondary { background: transparent; color: var(--muted); border: 1px solid transparent; }
+    .action-link.secondary:hover { color: #fff; }
+
+    /* Interactive Integration Sandbox Node Layouts */
+    .sandbox-split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media(max-width: 850px) { .sandbox-split { grid-template-columns: 1fr; } .telemetry-grid { grid-template-columns: 1fr; } .tab-bar { flex-direction: column; } }
+    
+    .interactive-module { background: rgba(15, 23, 42, 0.4); border: 1px solid var(--glass-border); border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+    .module-meta { display: flex; align-items: center; justify-content: space-between; border-b: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
+    .module-title { font-size: 14px; font-weight: 700; font-family: 'Fira Code', monospace; display: flex; align-items: center; gap: 8px; }
+    .status-indicator { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-family: 'Fira Code', monospace; color: var(--muted); }
+    .status-indicator::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
+    .status-indicator.online::before { background: var(--success); box-shadow: 0 0 8px var(--success); }
+    .status-indicator.online { color: var(--success); }
+    
+    .form-group label { display: block; font-size: 11px; font-family: 'Fira Code', monospace; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; }
+    .form-group input, .form-group select { w-full: 100%; width: 100%; background: #030712; border: 1px solid var(--glass-border); border-radius: 8px; padding: 10px 12px; font-size: 13px; color: #fff; font-family: sans-serif; outline: none; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group select:focus { border-color: var(--accent); }
+    
+    .terminal-output { background: #020617; border: 1px solid rgba(255,255,255,0.03); border-radius: 10px; padding: 14px; font-family: 'Fira Code', monospace; font-size: 11px; color: #cbd5e1; min-height: 110px; max-height: 160px; overflow-y: auto; white-space: pre-wrap; line-height: 1.6; }
+    
+    .fire-btn { border: none; padding: 10px 16px; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: center; display: block; width: 100%; text-decoration: none;}
+    .fire-btn.wa { background: var(--success); color: #030712; }
+    .fire-btn.wa:hover { opacity: 0.9; transform: translateY(-1px); }
+    .fire-btn.gm { background: var(--accent-blue); color: #fff; }
+    .fire-btn.gm:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* Code Snippets Framework */
+    .code-wrapper { background: #020617; border: 1px solid var(--glass-border); border-radius: 12px; padding: 16px; overflow-x: auto; font-family: 'Fira Code', monospace; font-size: 12px; line-height: 1.5; color: #94a3b8; }
+    .keyword { color: #f43f5e; }
+    .function { color: #eab308; }
+    .string { color: #10b981; }
+    .decorator { color: #a855f7; }
+
+    /* Timeline Navigation */
+    .timeline { position: relative; border-l: 1px solid var(--glass-border); padding-left: 20px; margin-left: 10px; }
+    .timeline-node { position: relative; margin-bottom: 30px; }
+    .timeline-node::before { content: ''; position: absolute; left: -26px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: #1e293b; border: 2px solid var(--accent); }
+    .timeline-meta { display: flex; justify-content: space-between; font-size: 12px; font-family: 'Fira Code', monospace; color: var(--accent); margin-bottom: 4px; }
+    .timeline-title { font-size: 16px; font-weight: 700; color: #fff; margin: 0 0 6px; }
+    .timeline-desc { font-size: 13px; color: var(--muted); line-height: 1.5; margin: 0; }
+
+    /* Global Utilities & Fixed BG Components */
+    #bg-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; display: block; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(100px) saturate(140%); opacity: 0.25; mix-blend-mode: screen; pointer-events: none; }
+    
+    .cta-btn-main { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 12px; background: linear-gradient(90deg, #22d3ee, #3b82f6); color: #030712; font-weight: 700; text-decoration: none; box-shadow: 0 10px 30px rgba(6, 182, 212, 0.25); transition: transform 0.2s, box-shadow 0.2s; font-size: 14px; }
+    .cta-btn-main:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(6, 182, 212, 0.4); }
+
+    .tools-grid-mini { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; margin-top: 16px; }
+    .tool-badge-mini { background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); padding: 8px; border-radius: 8px; font-size: 11px; text-align: center; font-family: 'Fira Code', monospace; color: #cbd5e1; }
+
+    footer { padding: 40px 20px; text-align: center; color: rgba(255,255,255,0.3); font-size: 12px; font-family: 'Fira Code', monospace; border-t: 1px solid var(--glass-border); margin-top: auto; }
+    .float-enroll { position: fixed; right: 24px; bottom: 24px; background: #25D366; color: #fff; padding: 14px 20px; border-radius: 14px; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3); z-index: 999; font-weight: 700; text-decoration: none; font-size: 13px; display: flex; align-items: center; gap: 8px; transition: transform 0.2s; }
+    .float-enroll:hover { transform: translateY(-3px); }
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased">
+<body>
 
-    <!-- Navbar -->
-    <nav class="fixed top-0 left-0 w-full bg-slate-950/80 backdrop-blur-md border-b border-slate-900 z-50 px-6 py-4">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <a href="#" class="text-xl font-bold tracking-wider bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">K. CHANDHU</a>
-            <div class="space-x-6 text-sm font-medium text-slate-400">
-                <a href="#about" class="hover:text-cyan-400 transition">About</a>
-                <a href="#skills" class="hover:text-cyan-400 transition">Skills</a>
-                <a href="#projects" class="hover:text-cyan-400 transition">Projects</a>
-                <a href="#experience" class="hover:text-cyan-400 transition">Experience</a>
-                <a href="mailto:kunapallichandu@gmail.com" class="bg-cyan-500 text-slate-950 px-4 py-2 rounded-md font-semibold hover:bg-cyan-400 transition inline-block">Contact</a>
-            </div>
+  <!-- Dynamic Graphic Sublayers -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="blob" style="width:600px;height:600px;background:radial-gradient(#0e7490, transparent);top:-150px;left:-200px;z-index:0"></div>
+  <div class="blob" style="width:500px;height:500px;background:radial-gradient(#1d4ed8, transparent);right:-100px;bottom:-100px;z-index:0"></div>
+
+  <!-- Main Hero Console Header Area -->
+  <header>
+    <div class="hero-inner">
+      <button id="enableUploadBtn"><i class="fas fa-lock mr-1"></i> Enable Image Node (Admin)</button>
+      <input type="file" id="photoUpload" accept="image/*" style="display:none">
+      
+      <div class="profile-container">
+        <img id="profilePhoto" src="https://raw.githubusercontent.com/Kunapallichanduch/trainer-website/main/default-avatar.png" alt="Kunapalli Chandhu Profile Display Node">
+      </div>
+
+      <h1 id="brand">KUNAPALLI <span>CHANDHU</span></h1>
+      <div class="sub" id="typedExpert"></div>
+      
+      <div class="contact-line">
+        <i class="fas fa-phone-alt text-cyan-400 mr-1"></i> <a href="tel:+918088032518">+91 8088032518</a> &nbsp;|&nbsp; 
+        <i class="fas fa-envelope text-blue-400 mr-1"></i> <a href="mailto:kunapallichandu@gmail.com">kunapallichandu@gmail.com</a>
+      </div>
+
+      <!-- Live Core Metric Grid -->
+      <div class="telemetry-grid">
+        <div class="telemetry-card">
+          <div class="telemetry-val">21M+</div>
+          <div class="telemetry-lbl">Records Routinely Processed</div>
         </div>
-    </nav>
+        <div class="telemetry-card">
+          <div class="telemetry-val">$0.00</div>
+          <div class="telemetry-lbl">Local VPS LLM Infra Overhead</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-val">4+ Yrs</div>
+          <div class="telemetry-lbl">Data Ecosystem Stature</div>
+        </div>
+      </div>
 
-    <!-- Hero Section -->
-    <section class="min-h-screen flex items-center justify-center pt-24 px-6 border-b border-slate-900">
-        <div class="max-w-4xl text-center space-y-6">
-            <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-xs text-cyan-400 font-medium tracking-wide">
-                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Open to Global Opportunities & EU Relocation
-            </div>
-            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight">
-                Hi, I'm <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">Kunapalli Chandhu</span>
-            </h1>
-            <p class="text-xl md:text-2xl text-slate-400 font-medium max-w-2xl mx-auto">
-                Data Engineer & Generative AI Architect specializing in production-scale data pipelines and agentic AI systems.
-            </p>
+      <div style="margin-top: 28px; display: flex; gap: 14px; justify-content: center;">
+        <a class="cta-btn-main" href="mailto:kunapallichandu@gmail.com?subject=Enterprise%20Inquiry"><i class="fas fa-paper-plane"></i> Request Engagement</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Interactive Control Panel Navigation Tabs -->
+  <div class="tab-container">
+    <div class="tab-bar" role="tablist">
+      <button class="tab-btn active" onclick="toggleConsoleTab('training-view')" id="btn-training-view" role="tab">
+        <i class="fas fa-graduation-cap"></i> Training Tracks
+      </button>
+      <button class="tab-btn" onclick="toggleConsoleTab('architecture-view')" id="btn-architecture-view" role="tab">
+        <i class="fas fa-server"></i> Production Architectures
+      </button>
+      <button class="tab-btn" onclick="toggleConsoleTab('integration-view')" id="btn-integration-view" role="tab">
+        <i class="fas fa-circle-nodes"></i> Integrations Hub
+      </button>
+    </div>
+  </div>
+
+  <!-- Operational Core Panel Output Viewports -->
+  <main>
+    
+    <!-- VIEWPORT LAYER 1: Deep Tech Training Programs -->
+    <div id="training-view" class="console-panel active">
+      <div class="panel-header">
+        <i class="fas fa-terminal"></i>
+        <h2>Engineered Curriculum Matrices</h2>
+      </div>
+      <div class="item-grid">
+        
+        <article class="card3d gold-tier">
+          <div class="tag-badge">Bestseller</div>
+          <div>
+            <h3>Azure Data Engineering</h3>
+            <p>Complete 60-day industrial immersion focusing on ADF pipelines, isolated Databricks runtime setups, Synapse storage layers, and Medallion architectures backed by enterprise CI/CD workflows.</p>
+          </div>
+          <div class="card-footer">
+            <span class="price-tag">₹30,000</span>
+            <a class="action-link primary" href="https://wa.me/918088032518?text=Interested%20in%20Azure%20Data%20Engineering">Enroll Core</a>
+          </div>
+        </article>
+
+        <article class="card3d">
+          <div class="tag-badge">GenAI Core</div>
+          <div>
+            <h3>GenAI & LLM Architecture</h3>
+            <p>Intense 40-day deep dive covering open-weights model fine-tuning arrays, local deployments via Ollama frameworks, production RAG parameters, vector semantic spaces, and multi-agent systems.</p>
+          </div>
+          <div class="card-footer">
+            <span class="price-tag">₹35,000</span>
+            <a class="action-link primary" href="https://wa.me/918088032518?text=Interested%20in%20GenAI%20and%20LLM%20Engineering">Enroll Core</a>
+          </div>
+        </article>
+
+        <article class="card3d">
+          <div class="tag-badge">Advanced</div>
+          <div>
+            <h3>Databricks & PySpark Matrix</h3>
+            <p>45-day validation program targeting cluster parallelization setups, systematic data transformations, Delta Lake streaming logic layers, and production optimization routines.</p>
+          </div>
+          <div class="card-footer">
+            <span class="price-tag">₹30,000</span>
+            <a class="action-link primary" href="https://wa.me/918088032518?text=Interested%20in%20Databricks%20and%20PySpark">Enroll Core</a>
+          </div>
+        </article>
+
+        <article class="card3d">
+          <div class="tag-badge">ML Core</div>
+          <div>
+            <h3>Machine Learning Systemics</h3>
+            <p>50-day engineering path translating pure statistics to production pipelines. Covers complex feature store definitions, robust model validation loops, and MLOps deployment architectures.</p>
+          </div>
+          <div class="card-footer">
+            <span class="price-tag">₹35,000</span>
+            <a class="action-link primary" href="https://wa.me/918088032518?text=Interested%20in%20Machine%20Learning">Enroll Core</a>
+          </div>
+        </article>
+
+        <article class="card3d">
+          <div class="tag-badge">Deep AI</div>
+          <div>
+            <h3>Deep Learning Foundations</h3>
+            <p>45-day computational track mapping custom multi-layer perceptrons, convolutional layers, recurrent cells, transformer multi-head attention systems, and raw GPU execution frameworks.</p>
+          </div>
+          <div class="card-footer">
+            <span class="price-tag">₹32,000</span>
+            <a class="action-link primary" href="https://wa.me/918088032518?text=Interested%20in%20Deep%20Learning%20Engineering">Enroll Core</a>
+          </div>
+        </article>
+
+        <article class="card3d">
+          <div class="tag-badge">Data Layer</div>
+          <div>
+            <h3>SQL Engine Mastery</h3>
+            <p>30 days focusing entirely on execution plan diagnostics, complex window metrics tuning, logical query isolation levels, and parsing over 200+ production interview scenarios.</p>
+          </div>
+          <div class="card-footer">
+            <span class="price-tag">₹19,999</span>
+            <a class="action-link primary" href="https://wa.me/918088032518?text=Interested%20in%20SQL%20Mastery">Enroll Core</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- VIEWPORT LAYER 2: Validated Architectural Engineering Records -->
+    <div id="architecture-view" class="console-panel">
+      <div class="panel-header">
+        <i class="fas fa-network-wired"></i>
+        <h2>Production Deployment Repositories</h2>
+      </div>
+      
+      <div class="sandbox-split">
+        <div class="glass-card space-y-4">
+          <h3 style="font-size: 18px; font-weight:700; margin: 0 0 16px; color:#fff;">Live Infrastructure Portfolio</h3>
+          <div class="timeline">
             
-            <!-- Quick Stats Banner -->
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-2xl mx-auto pt-6">
-                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-900">
-                    <div class="text-2xl font-bold text-cyan-400">21M+</div>
-                    <div class="text-xs text-slate-500 uppercase tracking-wider mt-1">Records Processed</div>
-                </div>
-                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-900">
-                    <div class="text-2xl font-bold text-blue-400">100% Cost Reduction</div>
-                    <div class="text-xs text-slate-500 uppercase tracking-wider mt-1">On Deployed Local LLMs</div>
-                </div>
-                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-900 col-span-2 md:col-span-1">
-                    <div class="text-2xl font-bold text-indigo-400">Multi-Agent</div>
-                    <div class="text-xs text-slate-500 uppercase tracking-wider mt-1">LangGraph Frameworks</div>
-                </div>
+            <div class="timeline-node">
+              <div class="timeline-meta"><span>ORCHESTRATION LAYER</span><span>LANGGRAPH / FASTAPI</span></div>
+              <h4 class="timeline-title">Agentic AI Timesheet Platform</h4>
+              <p class="timeline-desc">Multi-agent architecture built to orchestrate autonomous validation models. Integrates isolated policy agents, document evaluation agents, and structured human-in-the-loop validation checkpoints linked via custom ChromaDB vector layers.</p>
             </div>
 
-            <!-- Social Links -->
-            <div class="flex justify-center gap-6 pt-6 text-2xl text-slate-400">
-                <a href="https://github.com/Kunapallichanduch" target="_blank" class="hover:text-slate-100 transition"><i class="fab fa-github"></i></a>
-                <a href="https://linkedin.com/in/kunapalli-chandhu-75a13527a" target="_blank" class="hover:text-cyan-400 transition"><i class="fab fa-linkedin"></i></a>
-                <a href="https://www.youtube.com/@CosmicChetna-59" target="_blank" class="hover:text-red-500 transition"><i class="fab fa-youtube"></i></a>
-                <a href="mailto:kunapallichandu@gmail.com" class="hover:text-emerald-400 transition"><i class="fas fa-envelope"></i></a>
+            <div class="timeline-node">
+              <div class="timeline-meta"><span>HIGH VOLUME THROUGHPUT</span><span>AZURE CLOUD DATA FACTORY</span></div>
+              <h4 class="timeline-title">E-Commerce Data Pipeline (21M+ Records)</h4>
+              <p class="timeline-desc">Scaled and maintained large transactional dataset imports. Engineered logical partitioning models inside Azure Databricks runtimes to systematically map file sets directly to clean tabular formats.</p>
             </div>
+
+            <div class="timeline-node">
+              <div class="timeline-meta"><span>SECURE COMPLIANCE ENVIRONMENT</span><span>OLLAMA / VPS</span></div>
+              <h4 class="timeline-title">Offline VPS Tax Chatbot Infrastructure</h4>
+              <p class="timeline-desc">Architected standalone retrieval system utilizing localized open-source model layers inside a secure virtual private server network, resulting in zero external inference run costs.</p>
+            </div>
+
+          </div>
         </div>
-    </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-24 px-6 max-w-5xl mx-auto border-b border-slate-900">
-        <h2 class="text-3xl font-bold border-b border-slate-900 pb-4 mb-8">About Me</h2>
-        <div class="grid md:grid-cols-3 gap-8 items-start">
-            <div class="md:col-span-2 space-y-4 text-slate-300 leading-relaxed">
-                <p>
-                    I am a results-driven Data Engineer with approximately 4+ years of experience specializing in the design and optimization of scalable cloud data solutions. My expertise lies inside the Microsoft Azure stack, orchestration workflows, and high-performance computing using PySpark and SQL.
-                </p>
-                <p>
-                    Beyond classic enterprise data infrastructure, I focus on bridging the gap between Big Data and Generative AI. I architect domain-specific agentic platforms, custom Retrieval-Augmented Generation (RAG) systems, and self-hosted local LLMs (Ollama) on cost-efficient architectures. 
-                </p>
-                <p>
-                    Currently, I serve as a Technical Trainer at EduBridge, mentoring the next cohort of engineers on cloud architectures while continuously building and documenting advanced data products on my YouTube tech channel.
-                </p>
-            </div>
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3 text-sm">
-                <div class="text-xs uppercase font-bold tracking-widest text-slate-500 mb-2">Details</div>
-                <div><span class="text-slate-500">Location:</span> India (Open to Relocation)</div>
-                <div><span class="text-slate-500">Phone:</span> +91-8088032518</div>
-                <div><span class="text-slate-500">Education:</span> B.Tech CSE (CGPA: 8.23)</div>
-                <div><span class="text-slate-500">Visa Focus:</span> International / EU Blue Card</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Technical Toolkit -->
-    <section id="skills" class="py-24 px-6 max-w-5xl mx-auto border-b border-slate-900">
-        <h2 class="text-3xl font-bold border-b border-slate-900 pb-4 mb-8">Technical Toolkit</h2>
-        <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 style="font-size: 18px; font-weight:700; margin: 0 0 6px; color:#fff;">Current Operations Profile</h3>
+            <p style="font-size:13px; color:var(--muted); margin:0 0 16px; line-height:1.5;">Directing cloud architecture development frameworks and technical training vectors as an active Data Specialist at EduBridge Learning.</p>
             
-            <!-- Category 1 -->
-            <div class="bg-slate-900/40 border border-slate-900 p-6 rounded-xl">
-                <h3 class="text-sm uppercase font-bold text-cyan-400 tracking-wider mb-4"><i class="fas fa-database mr-2"></i> Data Engineering</h3>
-                <div class="flex flex-wrap gap-2">
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">Azure Data Factory</span>
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">Databricks</span>
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">Delta Lake</span>
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">Azure Synapse</span>
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">Apache Airflow</span>
-                </div>
+            <h4 style="font-size:12px; font-family:'Fira Code', monospace; color:var(--accent); margin: 20px 0 8px;">ACTIVE INFRASTRUCTURE TOOLS COVERED</h4>
+            <div class="tools-grid-mini">
+              <div class="tool-badge-mini">PySpark</div>
+              <div class="tool-badge-mini">Azure ADF</div>
+              <div class="tool-badge-mini">Databricks</div>
+              <div class="tool-badge-mini">Airflow</div>
+              <div class="tool-badge-mini">Kafka</div>
+              <div class="tool-badge-mini">ChromaDB</div>
+              <div class="tool-badge-mini">Docker</div>
+              <div class="tool-badge-mini">LangGraph</div>
             </div>
+          </div>
 
-            <!-- Category 2 -->
-            <div class="bg-slate-900/40 border border-slate-900 p-6 rounded-xl">
-                <h3 class="text-sm uppercase font-bold text-blue-400 tracking-wider mb-4"><i class="fas fa-robot mr-2"></i> GenAI & Agentic Systems</h3>
-                <div class="flex flex-wrap gap-2">
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">LangGraph / LangChain</span>
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">Ollama (Local Deployment)</span>
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">RAG Pipelines</span>
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">Vector DBs (ChromaDB)</span>
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">FastAPI</span>
-                </div>
-            </div>
-
-            <!-- Category 3 -->
-            <div class="bg-slate-900/40 border border-slate-900 p-6 rounded-xl">
-                <h3 class="text-sm uppercase font-bold text-indigo-400 tracking-wider mb-4"><i class="fas fa-server mr-2"></i> Big Data & Languages</h3>
-                <div class="flex flex-wrap gap-2">
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">Python</span>
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">SQL</span>
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">PySpark</span>
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">Spark SQL</span>
-                    <span class="bg-slate-900 border border-slate-800 px-3 py-1 rounded text-xs font-mono">Apache Kafka</span>
-                </div>
-            </div>
-
+          <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05);">
+            <p style="font-size: 11px; font-family:'Fira Code', monospace; color: var(--gold); margin: 0 0 10px;"><i class="fas fa-info-circle"></i> TARGETING TRANSNATIONAL ENGAGEMENTS // EU BLUE CARD ELIGIBLE</p>
+            <a href="https://github.com/Kunapallichanduch" target="_blank" class="action-link primary" style="width:100%; text-align:center; justify-content:center;"><i class="fab fa-github"></i> Inspect Target Verification Codebase</a>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!-- Featured Projects -->
-    <section id="projects" class="py-24 px-6 max-w-5xl mx-auto border-b border-slate-900">
-        <h2 class="text-3xl font-bold border-b border-slate-900 pb-4 mb-8">Featured Architectures</h2>
-        <div class="grid md:grid-cols-2 gap-6">
-            
-            <!-- Project 1 -->
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-slate-700 transition">
-                <div class="space-y-3">
-                    <div class="flex justify-between items-start">
-                        <span class="text-xs font-bold font-mono tracking-widest text-indigo-400 uppercase">Agentic AI & Orchestration</span>
-                        <div class="space-x-2 text-sm text-slate-400">
-                            <a href="https://github.com/Kunapallichanduch" target="_blank" class="hover:text-slate-100"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold">Agentic AI Timesheet Management System</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">
-                        Multi-agent infrastructure featuring parsing, policy validation, auditing, and automated manager escalations via human-in-the-loop triggers. Integrated SQLite and semantic evaluation.
-                    </p>
-                    <div class="flex flex-wrap gap-1.5 pt-2">
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">LangGraph</span>
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">Ollama</span>
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">FastAPI</span>
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">ChromaDB</span>
-                    </div>
-                </div>
-            </div>
+    <!-- VIEWPORT LAYER 3: Automated Communications Sandbox Hub -->
+    <div id="integration-view" class="console-panel">
+      <div class="panel-header">
+        <i class="fas fa-circle-nodes"></i>
+        <h2>Asynchronous Communications Mesh</h2>
+      </div>
 
-            <!-- Project 2 -->
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-slate-700 transition">
-                <div class="space-y-3">
-                    <div class="flex justify-between items-start">
-                        <span class="text-xs font-bold font-mono tracking-widest text-cyan-400 uppercase">Cloud Big Data Architecture</span>
-                        <div class="space-x-2 text-sm text-slate-400">
-                            <a href="https://github.com/Kunapallichanduch" target="_blank" class="hover:text-slate-100"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold">E-Commerce Pipeline (21M+ Records)</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">
-                        Large-scale enterprise ETL pipeline handling deep transactional structures. Optimizations integrated directly into Azure Data Factory and SQL server indexing to maintain high-throughput streaming.
-                    </p>
-                    <div class="flex flex-wrap gap-1.5 pt-2">
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">Azure Data Factory</span>
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">Databricks</span>
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">Power BI</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 3 -->
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-slate-700 transition">
-                <div class="space-y-3">
-                    <div class="flex justify-between items-start">
-                        <span class="text-xs font-bold font-mono tracking-widest text-emerald-400 uppercase">Privacy AI / Local Infrastructure</span>
-                        <div class="space-x-2 text-sm text-slate-400">
-                            <a href="https://github.com/Kunapallichanduch" target="_blank" class="hover:text-slate-100"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold">Offline VPS Tax Chatbot (RAG)</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">
-                        Secured domain-specific knowledge pipeline dropping inference infrastructure costs to zero. Scrapes and embeds custom tax protocols into semantic matrix spaces.
-                    </p>
-                    <div class="flex flex-wrap gap-1.5 pt-2">
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">Ollama</span>
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">Vector Embeddings</span>
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">VPS Deployed</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 4 -->
-            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col justify-between hover:border-slate-700 transition">
-                <div class="space-y-3">
-                    <div class="flex justify-between items-start">
-                        <span class="text-xs font-bold font-mono tracking-widest text-red-400 uppercase">Automation & Video Systems</span>
-                        <div class="space-x-2 text-sm text-slate-400">
-                            <a href="https://www.youtube.com/@CosmicChetna-59" target="_blank" class="hover:text-red-500"><i class="fab fa-youtube"></i> Video Demo</a>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-bold">End-to-End AI Media Automation Platform</h3>
-                    <p class="text-sm text-slate-400 leading-relaxed">
-                        Data orchestration platform managing content scraping, script validation, and deep integration with video rendering logic engines for YouTube media deployments.
-                    </p>
-                    <div class="flex flex-wrap gap-1.5 pt-2">
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">Python Scripting</span>
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">Content Pipelines</span>
-                        <span class="bg-slate-950 text-slate-400 text-[11px] font-mono px-2 py-0.5 rounded">Trigger Workflows</span>
-                    </div>
-                </div>
-            </div>
-
+      <div class="sandbox-split">
+        
+        <!-- Module Block A: WhatsApp Webhook Node Simulator -->
+        <div class="interactive-module">
+          <div class="module-meta">
+            <span class="module-title"><i class="fab fa-whatsapp text-emerald-400"></i> WhatsApp Gateway Ingestion</span>
+            <span class="status-indicator online" id="status-wa">Node Listening</span>
+          </div>
+          <p style="font-size: 12px; color: var(--muted); margin: 0; line-height: 1.4;">Simulate real-time messaging distribution mapping hooks. This traces how text-based string queries are received at phone endpoints and translated into system tokens.</p>
+          
+          <div class="form-group">
+            <label>Mock Inbound Device Message String</label>
+            <input type="text" id="wa-payload-input" value="System status request: fetch transaction summary metrics for the 21M storage engine record set.">
+          </div>
+          
+          <button class="fire-btn wa" onclick="triggerMockWhatsAppWebhook()">Execute Webhook Dispatch</button>
+          
+          <div class="form-group">
+            <label>Active Node Processing Stream Logs</label>
+            <div class="terminal-output" id="wa-terminal-log">⚡ Console pipeline active. System waiting to capture target payload parameters...</div>
+          </div>
         </div>
-    </section>
 
-    <!-- Professional Experience Timeline -->
-    <section id="experience" class="py-24 px-6 max-w-5xl mx-auto mb-12">
-        <h2 class="text-3xl font-bold border-b border-slate-900 pb-4 mb-8">Professional Timeline</h2>
-        <div class="space-y-8 border-l border-slate-900 pl-6 ml-2">
-            
-            <!-- Job 1 -->
-            <div class="relative">
-                <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-cyan-400 border-4 border-slate-950"></span>
-                <div class="flex flex-wrap justify-between items-baseline gap-2 mb-2">
-                    <h3 class="text-lg font-bold">Technical Trainer</h3>
-                    <span class="text-sm font-mono text-slate-500">Mar 2026 – Present</span>
-                </div>
-                <div class="text-sm text-cyan-400 font-medium mb-2">EduBridge Learning Pvt Ltd | Bengaluru</div>
-                <p class="text-sm text-slate-400 max-w-3xl leading-relaxed">
-                    Delivering deep-dive technical courses on modern cloud scaling, PySpark architectures, and data engineering. Mentoring technical engineering squads through production-grade ETL implementations and enterprise career path preparation.
-                </p>
-            </div>
-
-            <!-- Job 2 -->
-            <div class="relative">
-                <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-slate-800 border-4 border-slate-950"></span>
-                <div class="flex flex-wrap justify-between items-baseline gap-2 mb-2">
-                    <h3 class="text-lg font-bold">Data Engineer</h3>
-                    <span class="text-sm font-mono text-slate-500">Jun 2023 – Nov 2025</span>
-                </div>
-                <div class="text-sm text-slate-400 font-medium mb-2">BMS Infosolutions Pvt Ltd</div>
-                <p class="text-sm text-slate-400 max-w-3xl leading-relaxed">
-                    Designed and scaled high-volume data lakes via Azure Data Factory and Databricks clusters. Focused heavily on relational tuning, schema optimization inside Spark ecosystems, REST API extraction setups, and interactive executive data stories via Power BI.
-                </p>
-            </div>
-
+        <!-- Module Block B: Gmail IMAP Listener Core Simulator -->
+        <div class="interactive-module">
+          <div class="module-meta">
+            <span class="module-title"><i class="fas fa-envelope-open-text text-blue-400"></i> Gmail IMAP Event Scraper</span>
+            <span class="status-indicator online" id="status-gm">Polling Port 993</span>
+          </div>
+          <p style="font-size: 12px; color: var(--muted); margin: 0; line-height: 1.4;">Triggers mock evaluation processing for raw unstructured communication assets. Selects data profiles to route through local vectorization loops.</p>
+          
+          <div class="form-group">
+            <label>Target File Attachment Category Trigger</label>
+            <select id="gmail-payload-input">
+              <option value="timesheet">Inbound Employee Corporate Timesheet Log (PDF Asset)</option>
+              <option value="compliance">Updated Regional Regulatory Compliance Manual (Markdown Layout)</option>
+            </select>
+          </div>
+          
+          <button class="fire-btn gm" onclick="triggerMockGmailIMAPScraper()">Execute IMAP Event Ingestion</button>
+          
+          <div class="form-group">
+            <label>Active Node Processing Stream Logs</label>
+            <div class="terminal-output" id="gm-terminal-log">⚙️ IMAP background listener running idle. Awaiting file routing allocation signals...</div>
+          </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="border-t border-slate-900 py-8 text-center text-xs text-slate-600 font-mono">
-        &copy; 2026 Kunapalli Chandhu. Built with HTML5 & Tailwind CSS.
-    </footer>
+      </div>
+
+      <!-- Live Code Architecture Block Documentation -->
+      <div class="glass-card" style="margin-top:24px;">
+        <h4 style="font-size:13px; font-family:'Fira Code', monospace; color: var(--accent); margin:0 0 12px;">Unified Gateway Distribution Architecture Sample Blueprint</h4>
+        <div class="code-wrapper">
+          <span class="decorator">@app.post</span>(<span class="string">"/v2/gateway/ingress"</span>)<br>
+          <span class="keyword">async def</span> <span class="function">route_asynchronous_payload</span>(request: Request):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;payload = <span class="keyword">await</span> request.json()<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;stream_origin = payload.get(<span class="string">"origin_node"</span>)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment" style="color:#576f8e;"># Map communication strings directly to Vector Embeddings spaces</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;processed_vector = <span class="keyword">await</span> local_ollama_vps.embed_string(payload[<span class="string">"body"</span>])<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;orchestration_node = langgraph_engine.route(processed_vector)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> {<span class="string">"status_node"</span>: <span class="string">"success"</span>, <span class="string">"dispatched_target"</span>: orchestration_node}
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Sticky Conversion Components -->
+  <a class="float-enroll" href="https://wa.me/918088032518?text=Hello%20Chandhu,%20I'm%20interested%20in%20discussing%20your%20training%20tracks." target="_blank">
+    <i class="fab fa-whatsapp" style="font-size:16px;"></i> Direct Interface Node
+  </a>
+
+  <footer>
+    Console Core Deployment Configuration Matrix. &copy; 2026 Kunapalli Chandhu.
+  </footer>
+
+  <!-- Application Interaction Controller Scripts Block -->
+  <script>
+    // System Typing Subtitle Animation Variables Matrix
+    const dynamicRolesArray = [
+      "Data Engineering Expert",
+      "GenAI & LLM Architecture Specialist",
+      "Machine Learning Systems Engineer",
+      "Deep Learning Framework Architect",
+      "Cloud Infrastructure Mentor"
+    ];
+    let currentRoleIndex = 0, currentCharacterIndex = 0, isReversingText = false;
+
+    function processTypingSubtitleLoop() {
+      const targetElement = document.getElementById('typedExpert');
+      if (!targetElement) return;
+
+      const continuousString = dynamicRolesArray[currentRoleIndex];
+
+      if (!isReversingText) {
+        currentCharacterIndex++;
+        if (currentCharacterIndex === continuousString.length) {
+          isReversingText = true;
+          setTimeout(processTypingSubtitleLoop, 1200);
+          return;
+        }
+      } else {
+        currentCharacterIndex--;
+        if (currentCharacterIndex === 0) {
+          isReversingText = false;
+          currentRoleIndex = (currentRoleIndex + 1) % dynamicRolesArray.length;
+        }
+      }
+      targetElement.textContent = continuousString.substring(0, currentCharacterIndex);
+      setTimeout(processTypingSubtitleLoop, isReversingText ? 30 : 60);
+    }
+
+    // Interactive Tab Routing Engine
+    function toggleConsoleTab(selectedPanelId) {
+      document.querySelectorAll('.console-panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(button => button.classList.remove('active'));
+
+      const activeTargetPanel = document.getElementById(selectedPanelId);
+      const activeTargetButton = document.getElementById('btn-' + selectedPanelId);
+      
+      if (activeTargetPanel && activeTargetButton) {
+        activeTargetPanel.classList.add('active');
+        activeTargetButton.classList.add('active');
+      }
+      
+      // Refresh ScrollTrigger hooks dynamically to maintain viewport precision
+      if (window.ScrollTrigger) {
+        ScrollTrigger.refresh();
+      }
+    }
+
+    // WhatsApp Live Mock Pipeline Execution Simulation Engine
+    function triggerMockWhatsAppWebhook() {
+      const logContainer = document.getElementById('wa-terminal-log');
+      const inputMessageString = document.getElementById('wa-payload-input').value;
+      
+      logContainer.innerText = `[LOG // ${new Date().toISOString()}] Inbound HTTP POST payload detected at endpoint /v2/gateway/ingress...\n`;
+      
+      setTimeout(() => {
+        logContainer.innerText += `[DECODE] Mapping payload body string: "${inputMessageString}"\n`;
+      }, 400);
+
+      setTimeout(() => {
+        logContainer.innerText += `[AI SYSTEM] Dispatched to localized Ollama framework instance. Query evaluated against ChromaDB vector index fields.\n`;
+      }, 900);
+
+      setTimeout(() => {
+        logContainer.innerText += `[SUCCESS // 200 OK] System evaluation completed. Callback string package response dispatched successfully back to device layer via Twilio node channels.`;
+      }, 1500);
+    }
+
+    // Gmail IMAP Listener Processing Simulator Node
+    function triggerMockGmailIMAPScraper() {
+      const logContainer = document.getElementById('gm-terminal-log');
+      const chosenAllocationTarget = document.getElementById('gmail-payload-input').value;
+      
+      logContainer.innerText = `[POLL // Port 993] IMAP trigger verified. New unread email envelope item captured inside central parsing array...\n`;
+      
+      setTimeout(() => {
+        logContainer.innerText += `[PARSING] Isolating unstructured message parameters. Processing data stream for categorization target: [${chosenAllocationTarget.toUpperCase()}]\n`;
+      }, 500);
+
+      setTimeout(() => {
+        logContainer.innerText += `[COMPILING] System vector embeddings block built successfully. Target matrices securely localized inside SQLite data layers for automated tracking verification.`;
+      }, 1300);
+    }
+
+    // Security Verification Upload Action Handling Node (Admin Demo Layer)
+    function initializeAdministrationSecurityControls() {
+      const validationButtonNode = document.getElementById('enableUploadBtn');
+      const hiddenInputFileNode = document.getElementById('photoUpload');
+      const targetImageDisplayNode = document.getElementById('profilePhoto');
+
+      if (!validationButtonNode || !hiddenInputFileNode || !targetImageDisplayNode) return;
+
+      validationButtonNode.addEventListener('click', () => {
+        const securityPasswordSubmission = prompt('Enter Admin Verification Credentials:');
+        if (securityPasswordSubmission === 'chandu123') {
+          hiddenInputFileNode.style.display = 'block';
+          validationButtonNode.style.display = 'none';
+        } else {
+          alert('System Verification Rejection. Security override tracking initiated.');
+        }
+      });
+
+      hiddenInputFileNode.addEventListener('change', (event) => {
+        const structuralFileTarget = event.target.files[0];
+        if (structuralFileTarget) {
+          targetImageDisplayNode.src = URL.createObjectURL(structuralFileTarget);
+        }
+      });
+    }
+
+    // Background Presentation Layout Execution Engine (Three.js Engine Initialization)
+    function buildThreeBackgroundParticleGrid() {
+      if (!window.THREE) return;
+      try {
+        const targetBackgroundCanvas = document.getElementById('bg-canvas');
+        const processingRendererInstance = new THREE.WebGLRenderer({ canvas: targetBackgroundCanvas, alpha: true, antialias: true });
+        
+        processingRendererInstance.setClearColor(0x000000, 0);
+        processingRendererInstance.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+        
+        const graphicSceneInstance = new THREE.Scene();
+        const structuralCameraConfiguration = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+        structuralCameraConfiguration.position.z = 200;
+
+        const particleGeometryMatrix = new THREE.BufferGeometry();
+        const maximumParticleCount = 280;
+        const positionalFloatsArray = new Float32Array(maximumParticleCount * 3);
+
+        for (let i = 0; i < maximumParticleCount * 3; i++) {
+          positionalFloatsArray[i] = (Math.random() - 0.5) * 850;
+        }
+
+        particleGeometryMatrix.setAttribute('position', new THREE.BufferAttribute(positionalFloatsArray, 3));
+        const computationalPointsMaterial = new THREE.PointsMaterial({ size: 2.0, opacity: 0.6, transparent: true, color: 0x22d3ee });
+        const interactivePointsMeshObject = new THREE.Points(particleGeometryMatrix, computationalPointsMaterial);
+        
+        graphicSceneInstance.add(interactivePointsMeshObject);
+
+        function adaptViewportDimensions() {
+          structuralCameraConfiguration.aspect = window.innerWidth / window.innerHeight;
+          structuralCameraConfiguration.updateProjectionMatrix();
+          processingRendererInstance.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener('resize', adaptViewportDimensions);
+        adaptViewportDimensions();
+
+        let computationalTimeDelta = 0;
+        function executeRenderingLoop() {
+          computationalTimeDelta += 0.0015;
+          interactivePointsMeshObject.rotation.y = computationalTimeDelta;
+          interactivePointsMeshObject.rotation.x = Math.sin(computationalTimeDelta * 0.5) * 0.05;
+          processingRendererInstance.render(graphicSceneInstance, structuralCameraConfiguration);
+          requestAnimationFrame(executeRenderingLoop);
+        }
+        executeRenderingLoop();
+      } catch (runtimeException) {
+        console.warn('Three.js processing loop suspended initialization error trace:', runtimeException);
+      }
+    }
+
+    // Primary Component Handshake Deployment Initialization Node
+    window.addEventListener('DOMContentLoaded', () => {
+      processTypingSubtitleLoop();
+      initializeAdministrationSecurityControls();
+      buildThreeBackgroundParticleGrid();
+    });
+  </script>
 
 </body>
 </html>
